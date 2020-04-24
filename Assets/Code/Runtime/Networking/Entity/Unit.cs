@@ -9,6 +9,7 @@ public abstract class EntityUnit : MonoBehaviour {
 
   [Header("IDs")]
   public int entityID;
+  public int authorityID;
 
   [Header("Update Timers")]
   public float updateTimer = 0.1f;
@@ -16,18 +17,22 @@ public abstract class EntityUnit : MonoBehaviour {
 
   public bool isMine{
     get {
-      return NetworkManager.isMaster;
+      return authorityID == UnitManager.Local.authorityID;
     }
   }
 
   // Add this to all EntityUnits
-  public static EntityUnit CreateEntity(int id){
+  public static EntityUnit CreateEntity(){
     throw new System.Exception("Should never be called. This is just an example function.");
+
+    // Example: replace null with your prefab
+    // return SetEntityHelper(null);
   }
 
-  public static EntityUnit SetEntityHelper(int id, GameObject item){
-    var comp = item.GetComponent<EntityUnit>();
-    comp.entityID = id;
+  public static EntityUnit SetEntityHelper(GameObject prefab){
+    var obj = Instantiate(prefab);
+    var comp = obj.GetComponent<EntityUnit>();
+    comp.AwakeEntity();
     return comp;
   }
 

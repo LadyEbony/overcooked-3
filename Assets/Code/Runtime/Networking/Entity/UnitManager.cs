@@ -13,9 +13,7 @@ public class UnitManager : EntityBase, IMasterOwnsUnclaimed {
 
   public Dictionary<int, EntityUnit> entities;
 
-  public GameObject platePrefab;
-
-  public static UnitManager Instance { get; private set; }
+  public static UnitManager Local { get; set; }
 
   public static Dictionary<System.Type, int> typeConversion;
   public static Dictionary<int, MethodInfo> createConversion;
@@ -31,33 +29,24 @@ public class UnitManager : EntityBase, IMasterOwnsUnclaimed {
       var value = t.ToString().GetStableHashCode();
       // and get the method info
       var method = t.GetMethod("CreateEntity", BindingFlags.Public | BindingFlags.Static);
+      Debug.Log(value);
+      Debug.Log(method);
       typeConversion.Add(t, value);
       createConversion.Add(value, method);
     }
 
   }
 
-  public override void Awake() {
-    Instance = this;
-
+  public override void Awake(){
+    base.Awake();
     entities = new Dictionary<int, EntityUnit>();
-    Register();
-  }
-
-  IEnumerator Start(){
-    while(!NetworkManager.expectedState) yield return null;
-
-    // just for testing
-    if (isMine){
-      var item = Instantiate(platePrefab);
-      Register(item.GetComponent<EntityUnit>());
-    }
   }
 
   void Update(){
     if (!NetworkManager.expectedState) return;
 
-    foreach(var e in entities.Values){
+    var items = entities.Values.ToArray();
+    foreach(var e in items){
       e.UpdateEntity();
     }
 
@@ -71,8 +60,6 @@ public class UnitManager : EntityBase, IMasterOwnsUnclaimed {
     return entities.TryGetValue(entityId, out item) ? item as T : null;
   } 
 
-
-
   public void Register(EntityUnit unit){
     // all entities here are server owned
     // int is what 2^32, this number is pretty much unique
@@ -82,11 +69,15 @@ public class UnitManager : EntityBase, IMasterOwnsUnclaimed {
       id = Random.Range(int.MinValue, int.MaxValue);
     }
     unit.entityID = id;
+    unit.authorityID = authorityID;
     entities.Add(id, unit);
 
-    unit.AwakeEntity();
     unit.StartEntity();
   }
+
+  public void Deregister(EntityUnit unit){
+    entities.Remove(unit.entityID);
+  } 
 
   public override void Serialize(Hashtable h) {
     base.Serialize(h);
@@ -113,12 +104,14 @@ public class UnitManager : EntityBase, IMasterOwnsUnclaimed {
         var hashtable = (Hashtable)e.Value;
 
         EntityUnit item;
-        if (!entities.TryGetValue(id, out item)){
+        if (!entities.TryGetValue(id, out item) && hashtable.Count > 0){
           // a new id, create
           var typeID = (int)hashtable[PhotonConstants.tpeChar];
           var createMethod = createConversion[typeID];
-          item = createMethod.Invoke(null, new object[] { id }) as EntityUnit;
-          item.AwakeEntity();
+          item = createMethod.Invoke(null, new object[] { }) as EntityUnit;
+          item.entityID = id;
+          item.authorityID = authorityID;
+
           item.Deserialize(hashtable);
 
           // add to hashset
@@ -126,7 +119,8 @@ public class UnitManager : EntityBase, IMasterOwnsUnclaimed {
           item.StartEntity();
         } else {
           // not new
-          item.Deserialize(hashtable);
+          if (hashtable.Count > 0)
+            item.Deserialize(hashtable);
           cur.Remove(id);
         }
       }
@@ -139,16 +133,26 @@ public class UnitManager : EntityBase, IMasterOwnsUnclaimed {
         item.DestroyEntity();
 
         // we cannot delete immediately
-        // in case they still get data in the future
+        // in case other scripts need this
         var obj = item.gameObject;
         obj.SetActive(false);
-        Destroy(obj, 2.5f);
+        Destroy(obj, 1f);
 
         entities.Remove(id);
       }
       
     }
 
+  }
+
+  void OnDestroy(){
+    EntityManager.DeRegister(this);
+
+    foreach(var item in entities.Values){
+      var obj = item.gameObject;
+      obj.SetActive(false);
+      Destroy(obj, 1f);
+    }
   }
 
 }
