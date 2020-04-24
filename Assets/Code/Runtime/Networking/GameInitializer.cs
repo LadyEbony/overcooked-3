@@ -73,8 +73,8 @@ public class GameInitializer : MonoBehaviour {
   public void ModifyLocalManager(UnitManager manager) {
 		UnitManager.Local = manager;
 
-    //var player = PlayerEntity.CreateEntity();
-    //manager.Register(player);
+    var player = PlayerEntity.CreateEntity();
+    manager.Register(player);
 	}
 
 	private void AddUnitManager(int actor, UnitManager manager){

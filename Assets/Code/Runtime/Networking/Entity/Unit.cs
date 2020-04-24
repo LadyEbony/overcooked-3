@@ -29,7 +29,7 @@ public abstract class EntityUnit : MonoBehaviour {
     // return SetEntityHelper(null);
   }
 
-  public static EntityUnit SetEntityHelper(GameObject prefab){
+  public static EntityUnit CreateEntityHelper(GameObject prefab){
     var obj = Instantiate(prefab);
     var comp = obj.GetComponent<EntityUnit>();
     comp.AwakeEntity();
