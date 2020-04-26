@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using ExitGames.Client.Photon;
 using UnityEngine;
 
-public class PlayerEntity : EntityUnit {
+public class PlayerEntity : UnitEntity {
 
   private PlayerController controller;
 
-  public new static EntityUnit CreateEntity(){
-    return CreateEntityHelper(GameInitializer.Instance.playerPrefab);
+  public new static UnitEntity CreateEntity(){
+    return CreateEntityHelper(GameInitializerUnit.Instance.playerPrefab);
   }
 
   public override void AwakeEntity() {

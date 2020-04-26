@@ -270,10 +270,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 585910891}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19bd4ab5d0dfa174b9514c2c939da890, type: 3}
+  m_Script: {fileID: 11500000, guid: 8cb12b56243fe3544b020e34b6916356, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 2217074228598483616, guid: 8746a58936e2773479b3776fede7573d,
+  playerPrefab: {fileID: 976772209332616488, guid: ebde7377b2e9eab45b492cb3da19bfc2,
     type: 3}
   aiPrefab: {fileID: 0}
   gunPrefab: {fileID: 0}
