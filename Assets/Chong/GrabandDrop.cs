@@ -6,14 +6,12 @@ public class GrabandDrop : MonoBehaviour
 {
     public GameObject item;
     public Transform MC;
-    //public Transform rightHand;
     public Transform holdSlot;
-    //public Vector3 offset;
-
+    public Vector3 fw;
+    public float speed;
 
     public Transform selection;
     public Transform curSelection;
-
     public RaycastHit theItem;
     public Transform curItem;
 
@@ -31,17 +29,14 @@ public class GrabandDrop : MonoBehaviour
     void Start()
     {
         MC = this.transform;
-        //rightHand = MC.transform.Find("rightHand");
         holdSlot = MC.transform.Find("holdSlot");
-
-        //offset = new Vector3(0.0f, 0.0f, 2.0f);
+        speed = 350.0f;
         hold = status.notHolding;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //offset = rightHand.transform.z;
         IndicateSelections();
         GrabAndDrop();
     }
@@ -51,16 +46,6 @@ public class GrabandDrop : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.E) && (hold == status.notHolding) && (curSelection != null))
         {
-            /*
-            item = curSelection.transform.gameObject;
-            item.GetComponent<Rigidbody>().useGravity = false;
-            item.GetComponent<Rigidbody>().isKinematic = true;
-            item.transform.position = rightHand.transform.position + offset;
-            item.transform.rotation = rightHand.transform.rotation;
-            item.transform.parent = rightHand.transform;
-            hold = status.holding;
-            */
-
             item = curSelection.transform.gameObject;
             item.GetComponent<Rigidbody>().useGravity = false;
             item.GetComponent<Rigidbody>().isKinematic = true;
@@ -74,6 +59,15 @@ public class GrabandDrop : MonoBehaviour
         {
             item.GetComponent<Rigidbody>().useGravity = true;
             item.GetComponent<Rigidbody>().isKinematic = false;
+            item.transform.parent = null;
+            hold = status.notHolding;
+        }
+
+        if (Input.GetKey(KeyCode.R) && (hold == status.holding)){
+            fw = holdSlot.transform.forward;
+            item.GetComponent<Rigidbody>().useGravity = true;
+            item.GetComponent<Rigidbody>().isKinematic = false;
+            item.GetComponent<Rigidbody>().AddForce(fw * speed);
             item.transform.parent = null;
             hold = status.notHolding;
         }
