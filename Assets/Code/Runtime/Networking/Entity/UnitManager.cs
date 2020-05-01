@@ -13,7 +13,6 @@ public abstract class UnitManager<T> : EntityBase, IMasterOwnsUnclaimed where T:
 
   public Dictionary<int, T> entities;
 
-  public static UnitManager<T> Local;
   public static Dictionary<System.Type, int> typeConversion;
   public static Dictionary<int, MethodInfo> createConversion;
 

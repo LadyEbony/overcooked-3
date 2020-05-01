@@ -8,6 +8,7 @@ public static class PhotonConstants {
   public static readonly char eidChar = (char)206; // 'Î'
   public static readonly char athChar = (char)238; // 'î'
   public static readonly char insChar = (char)207; // 'Ï'
+  public static readonly char actChar = (char)209; // 'Ï'
   public static readonly char tpeChar = (char)208;
 
   public static readonly string propScene = "sc";

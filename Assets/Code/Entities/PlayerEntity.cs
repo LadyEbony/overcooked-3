@@ -8,7 +8,7 @@ public class PlayerEntity : UnitEntity {
   private PlayerController controller;
 
   public new static UnitEntity CreateEntity(){
-    return CreateEntityHelper(GameInitializerUnit.Instance.playerPrefab);
+    return CreateEntityHelper(GameInitializer.Instance.playerPrefab);
   }
 
   public override void AwakeEntity() {

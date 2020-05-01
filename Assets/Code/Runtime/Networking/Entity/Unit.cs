@@ -8,7 +8,7 @@ public abstract class Unit : MonoBehaviour {
   public int entityID;
   public int authorityID;
 
-  public abstract bool isMine { get; }
+  public bool isMine => UnitEntityManager.Local.authorityID == authorityID;
   public bool isMaster => NetworkManager.isMaster;
 
   /// <summary>

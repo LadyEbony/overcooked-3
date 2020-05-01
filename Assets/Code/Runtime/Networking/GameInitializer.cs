@@ -4,11 +4,11 @@ using UnityEngine;
 using ExitGames.Client.Photon;
 using ExitGames.Client.Photon.LoadBalancing;
 
-public abstract class GameInitializer<S, T> : MonoBehaviour where T: UnitManager<S> where S: Unit{
+public class GameInitializer: MonoBehaviour{
 
-  public static GameInitializer<S, T> Instance { get; private set; }
+  public static GameInitializer Instance { get; private set; }
 
-  public Dictionary<int, T> managers;
+  public Dictionary<int, UnitEntityManager> managers;
 
   public GameObject playerPrefab;
   public GameObject aiPrefab;
@@ -18,7 +18,7 @@ public abstract class GameInitializer<S, T> : MonoBehaviour where T: UnitManager
 
   private void Awake() {
     Instance = this;
-    managers = new Dictionary<int, T>();
+    managers = new Dictionary<int, UnitEntityManager>();
   }
 
   private void OnEnable() {
@@ -54,11 +54,21 @@ public abstract class GameInitializer<S, T> : MonoBehaviour where T: UnitManager
       AddUnitManager(id, manager);
       ModifyLocalManager(manager);
     }
+
+    { 
+      var obj = new GameObject("Physics Manager", typeof(PhysicsEntityManager));
+      var manager = obj.GetComponent<PhysicsEntityManager>();
+      manager.EntityID = -1;
+      manager.authorityID = -1;
+      manager.Register();
+      PhysicsEntityManager.Instance = manager;
+    }
+
   }
 
-  private T CreateManager(int id){
-    var obj = new GameObject("Manager", typeof(T));
-    var manager = obj.GetComponent<T>();
+  private UnitEntityManager CreateManager(int id){
+    var obj = new GameObject("Unit Manager", typeof(UnitEntityManager));
+    var manager = obj.GetComponent<UnitEntityManager>();
     manager.EntityID = id;
     manager.authorityID = id;
     manager.Register();
@@ -66,15 +76,15 @@ public abstract class GameInitializer<S, T> : MonoBehaviour where T: UnitManager
     return manager;
   }
 
-  public void ModifyServerManager(T manager){
+  public void ModifyServerManager(UnitEntityManager manager){
     
   }
 
-  public virtual void ModifyLocalManager(T manager) {
-		UnitManager<S>.Local = manager;
+  public virtual void ModifyLocalManager(UnitEntityManager manager) {
+		UnitEntityManager.Local = manager;
 	}
 
-	private void AddUnitManager(int actor, T manager){
+	private void AddUnitManager(int actor, UnitEntityManager manager){
     managers.Add(actor, manager);
   }
 
@@ -93,7 +103,7 @@ public abstract class GameInitializer<S, T> : MonoBehaviour where T: UnitManager
   private void OnPlayerLeaved(EventData data) {
     var id = (int)data.Parameters[ParameterCode.ActorNr];
 
-    T manager;
+    UnitEntityManager manager;
     if(managers.TryGetValue(id, out manager)){
       Destroy(manager.gameObject);
       RemoveUnitManager(id);

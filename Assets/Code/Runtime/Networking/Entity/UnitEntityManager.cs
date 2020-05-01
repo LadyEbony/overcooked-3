@@ -7,6 +7,8 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class UnitEntityManager : UnitManager<UnitEntity> {
 
+  public static UnitEntityManager Local;
+
   void Update(){
     if (!NetworkManager.expectedState) return;
 

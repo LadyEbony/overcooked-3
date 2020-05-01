@@ -11,8 +11,6 @@ public abstract class UnitEntity : Unit {
   public float updateTimer = 0.1f;
   private float _nextUpdatetime;
 
-  public override bool isMine => authorityID == UnitEntityManager.Local.authorityID;
-
   // Add this to all EntityUnits
   public static UnitEntity CreateEntity(){
     throw new System.Exception("Should never be called. This is just an example function.");
