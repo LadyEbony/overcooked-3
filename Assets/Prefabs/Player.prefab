@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 9123342413094509561}
   - component: {fileID: 1682476700365480307}
   - component: {fileID: 2074725331}
+  - component: {fileID: -4493709941416073498}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -143,3 +144,24 @@ MonoBehaviour:
   entityID: 0
   authorityID: 0
   updateTimer: 0.05
+--- !u!114 &-4493709941416073498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2217074228598483616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb8ac858212774870a4565f375faf4ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCharactor: {fileID: 0}
+  MC: {fileID: 0}
+  offset: {x: 0, y: 0, z: 0}
+  selection: {fileID: 0}
+  curSelection: {fileID: 0}
+  curItem: {fileID: 0}
+  selectableTag: Selectable
+  highlightMaterial: {fileID: 2100000, guid: a8178b1eec032488f9bb5f0ae4476985, type: 2}
+  defaultMaterial: {fileID: 2100000, guid: dc3f5747d6c204377951971e01c5188e, type: 2}
