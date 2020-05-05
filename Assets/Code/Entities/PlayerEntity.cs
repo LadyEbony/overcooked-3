@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using ExitGames.Client.Photon;
 using UnityEngine;
 
-public class PlayerEntity : EntityUnit {
+public class PlayerEntity : UnitEntity {
 
   private PlayerController controller;
 
-  public new static EntityUnit CreateEntity(){
+  public new static UnitEntity CreateEntity(){
     return CreateEntityHelper(GameInitializer.Instance.playerPrefab);
   }
 
