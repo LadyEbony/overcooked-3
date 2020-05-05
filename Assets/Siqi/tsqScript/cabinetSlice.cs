@@ -17,6 +17,7 @@ public class cabinetSlice : MonoBehaviour
         if (cook != null)
         {
             cook.inCabinetSlice = this;
+            //Debug.Log("cook.inCabinetSlice = this;");
         }
         
         // if (sliceFood != null) sliceFood.slicing();
@@ -29,6 +30,7 @@ public class cabinetSlice : MonoBehaviour
         if (cook != null)
         {
             cook.inCabinetSlice = null;
+            //Debug.Log("cook.inCabinetSlice = null;");
         }
         //if (sliceFood != null) sliceFood.sliceInit();
     }

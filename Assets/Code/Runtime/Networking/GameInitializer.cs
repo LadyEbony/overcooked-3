@@ -4,12 +4,11 @@ using UnityEngine;
 using ExitGames.Client.Photon;
 using ExitGames.Client.Photon.LoadBalancing;
 
-public class GameInitializer: MonoBehaviour{
+public class GameInitializer : MonoBehaviour {
 
   public static GameInitializer Instance { get; private set; }
 
-  public Dictionary<int, UnitEntityManager> managers;
-
+  public Dictionary<int, UnitManager> managers;
   public GameObject playerPrefab;
   public GameObject aiPrefab;
   public GameObject gunPrefab;
@@ -18,7 +17,7 @@ public class GameInitializer: MonoBehaviour{
 
   private void Awake() {
     Instance = this;
-    managers = new Dictionary<int, UnitEntityManager>();
+    managers = new Dictionary<int, UnitManager>();
   }
 
   private void OnEnable() {
@@ -54,21 +53,11 @@ public class GameInitializer: MonoBehaviour{
       AddUnitManager(id, manager);
       ModifyLocalManager(manager);
     }
-
-    { 
-      var obj = new GameObject("Physics Manager", typeof(PhysicsEntityManager));
-      var manager = obj.GetComponent<PhysicsEntityManager>();
-      manager.EntityID = -1;
-      manager.authorityID = -1;
-      manager.Register();
-      PhysicsEntityManager.Instance = manager;
-    }
-
   }
 
-  private UnitEntityManager CreateManager(int id){
-    var obj = new GameObject("Unit Manager", typeof(UnitEntityManager));
-    var manager = obj.GetComponent<UnitEntityManager>();
+  private UnitManager CreateManager(int id){
+    var obj = new GameObject("Manager", typeof(UnitManager));
+    var manager = obj.GetComponent<UnitManager>();
     manager.EntityID = id;
     manager.authorityID = id;
     manager.Register();
@@ -76,15 +65,19 @@ public class GameInitializer: MonoBehaviour{
     return manager;
   }
 
-  public void ModifyServerManager(UnitEntityManager manager){
+  public void ModifyServerManager(UnitManager manager){
     
   }
 
-  public virtual void ModifyLocalManager(UnitEntityManager manager) {
-		UnitEntityManager.Local = manager;
+  // KEVIN: This is called when my player enters gameplay
+  public void ModifyLocalManager(UnitManager manager) {
+		UnitManager.Local = manager;
+
+    var player = PlayerEntity.CreateEntity();
+    manager.Register(player);
 	}
 
-	private void AddUnitManager(int actor, UnitEntityManager manager){
+	private void AddUnitManager(int actor, UnitManager manager){
     managers.Add(actor, manager);
   }
 
@@ -103,7 +96,7 @@ public class GameInitializer: MonoBehaviour{
   private void OnPlayerLeaved(EventData data) {
     var id = (int)data.Parameters[ParameterCode.ActorNr];
 
-    UnitEntityManager manager;
+    UnitManager manager;
     if(managers.TryGetValue(id, out manager)){
       Destroy(manager.gameObject);
       RemoveUnitManager(id);
