@@ -12,6 +12,8 @@ public static class StreamCustomTypes {
 		PhotonPeer.RegisterType(typeof(Quaternion), (byte)'Q', SerializeQuaternion, DeserializeQuaternion);
     PhotonPeer.RegisterType(typeof(Color), (byte)'C', SerializeColor, DeserializeColor);
 		PhotonPeer.RegisterType(typeof(char), (byte)'c', SerializeChar, DeserializeChar);
+
+    PhotonPeer.RegisterType(typeof(PhysicsEntityManager.EntityState), (byte)'E', SerializeEntityState, DeserializeEntityState);
 	}
 
 	private static short SerializeVector2(StreamBuffer outStream, object customObj) {
@@ -134,5 +136,93 @@ public static class StreamCustomTypes {
 		inStream.Read(bytes, 0, 1);
 
 		return (char)bytes[0];
+	}
+
+  private static short SerializeEntityState(StreamBuffer outstream, object customObj){
+    var vo = (PhysicsEntityManager.EntityState)customObj;
+
+    MemoryStream ms = new MemoryStream(5);
+    ms.WriteByte(vo.mask);
+    ms.Write(BitConverter.GetBytes(vo.id), 0, 4);
+
+    // player
+    if (vo.mask == 1){
+      ms.Capacity = 5 + 8 + 4 + 8 + 4;
+
+      ms.Write(BitConverter.GetBytes(vo.position.x), 0, 4);             // 8
+      ms.Write(BitConverter.GetBytes(vo.position.z), 0, 4);
+
+      ms.Write(BitConverter.GetBytes(vo.rotation.eulerAngles.y), 0, 4); // 4
+
+      ms.Write(BitConverter.GetBytes(vo.velocity.x), 0, 4);             // 8
+      ms.Write(BitConverter.GetBytes(vo.velocity.z), 0, 4);
+
+      ms.Write(BitConverter.GetBytes(vo.angularVelocity.y), 0, 4);      // 4
+    } 
+    // default
+    else {
+      ms.Capacity = 5 + 12 + 16 + 12 + 12;
+
+      ms.Write(BitConverter.GetBytes(vo.position.x), 0, 4);         // 12
+      ms.Write(BitConverter.GetBytes(vo.position.y), 0, 4);
+      ms.Write(BitConverter.GetBytes(vo.position.z), 0, 4);
+
+      ms.Write(BitConverter.GetBytes(vo.rotation.x), 0, 4);         // 12
+      ms.Write(BitConverter.GetBytes(vo.rotation.y), 0, 4);
+      ms.Write(BitConverter.GetBytes(vo.rotation.z), 0, 4);
+      ms.Write(BitConverter.GetBytes(vo.rotation.w), 0, 4);
+
+      ms.Write(BitConverter.GetBytes(vo.velocity.x), 0, 4);         // 12
+      ms.Write(BitConverter.GetBytes(vo.velocity.y), 0, 4);
+      ms.Write(BitConverter.GetBytes(vo.velocity.z), 0, 4);
+
+      ms.Write(BitConverter.GetBytes(vo.angularVelocity.x), 0, 4);  // 12
+      ms.Write(BitConverter.GetBytes(vo.angularVelocity.y), 0, 4);
+      ms.Write(BitConverter.GetBytes(vo.angularVelocity.z), 0, 4);
+    }
+
+    var l = ms.Length;
+    outstream.Write(ms.ToArray(), 0, (int)l);
+    return (short)l;
+  }
+
+  private static object DeserializeEntityState(StreamBuffer inStream, short Length) {
+    var mask = inStream.ReadByte();
+
+    // player
+    if (mask == 1){
+      var bytes = new byte[4 + 8 + 4 + 8 + 4];
+      inStream.Read(bytes, 0, 4 + 8 + 4 + 8 + 4);
+
+      return new 
+			PhysicsEntityManager.EntityState{
+        id = BitConverter.ToInt32(bytes, 0),
+        mask = (byte)mask,
+        position = new Vector3(BitConverter.ToSingle(bytes, 4), 0f, BitConverter.ToSingle(bytes, 8)),
+        rotation = Quaternion.Euler(0f, BitConverter.ToSingle(bytes, 12), 0f),
+        velocity = new Vector3(BitConverter.ToSingle(bytes, 16), 0f, BitConverter.ToSingle(bytes, 20)),
+        angularVelocity = new Vector3(0f, BitConverter.ToSingle(bytes, 24), 0f),
+      };
+    } 
+    // default
+    else {
+      var bytes = new byte[4 + 12 + 16 + 12 + 12];
+		  inStream.Read(bytes, 0, 4 + 12 + 16 + 12 + 12);
+
+      return new 
+			PhysicsEntityManager.EntityState{
+        id = BitConverter.ToInt32(bytes, 0),
+        mask = (byte)mask,
+        position = new Vector3(BitConverter.ToSingle(bytes, 4), BitConverter.ToSingle(bytes, 8), BitConverter.ToSingle(bytes, 12)),
+        rotation = new Quaternion(BitConverter.ToSingle(bytes, 16), BitConverter.ToSingle(bytes, 20), BitConverter.ToSingle(bytes, 24), BitConverter.ToSingle(bytes, 28)),
+        velocity = new Vector3(BitConverter.ToSingle(bytes, 32), BitConverter.ToSingle(bytes, 36), BitConverter.ToSingle(bytes, 40)),
+        angularVelocity = new Vector3(BitConverter.ToSingle(bytes, 44), BitConverter.ToSingle(bytes, 48), BitConverter.ToSingle(bytes, 52)),
+      };
+    }
+
+
+    
+
+		
 	}
 }

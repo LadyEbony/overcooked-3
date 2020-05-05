@@ -5,14 +5,13 @@ using UnityEngine;
 public class GrabandDrop : MonoBehaviour
 {
     public GameObject item;
-    //public GameObject mainCharactor;
     public Transform MC;
-    public Vector3 offset;
-
+    public Transform holdSlot;
+    public Vector3 fw;
+    public float speed;
 
     public Transform selection;
     public Transform curSelection;
-
     public RaycastHit theItem;
     public Transform curItem;
 
@@ -29,16 +28,10 @@ public class GrabandDrop : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //mainCharactor = GameObject.Find("Player");
-        //MC = mainCharactor.transform;
-
         MC = this.transform;
-        //mainCharactor = GameObject.Find(MC.transform.name);
-
-
-        offset = new Vector3(1.50f, 0.0f, 0.0f);
+        holdSlot = MC.transform.Find("holdSlot");
+        speed = 350.0f;
         hold = status.notHolding;
-        //item.GetComponent<Rigidbody>().useGravity = true;
     }
 
     // Update is called once per frame
@@ -56,9 +49,9 @@ public class GrabandDrop : MonoBehaviour
             item = curSelection.transform.gameObject;
             item.GetComponent<Rigidbody>().useGravity = false;
             item.GetComponent<Rigidbody>().isKinematic = true;
-            item.transform.position = MC.transform.position + offset;
-            item.transform.rotation = MC.transform.rotation;
-            item.transform.parent = MC.transform;
+            item.transform.position = holdSlot.transform.position;
+            item.transform.rotation = holdSlot.transform.rotation;
+            item.transform.parent = holdSlot.transform;
             hold = status.holding;
         }
 
@@ -66,7 +59,15 @@ public class GrabandDrop : MonoBehaviour
         {
             item.GetComponent<Rigidbody>().useGravity = true;
             item.GetComponent<Rigidbody>().isKinematic = false;
-            item.transform.position = MC.transform.position + offset;
+            item.transform.parent = null;
+            hold = status.notHolding;
+        }
+
+        if (Input.GetKey(KeyCode.R) && (hold == status.holding)){
+            fw = holdSlot.transform.forward;
+            item.GetComponent<Rigidbody>().useGravity = true;
+            item.GetComponent<Rigidbody>().isKinematic = false;
+            item.GetComponent<Rigidbody>().AddForce(fw * speed);
             item.transform.parent = null;
             hold = status.notHolding;
         }
@@ -83,8 +84,6 @@ public class GrabandDrop : MonoBehaviour
             curSelection = null;
         }
 
-        //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        //if (Physics.Raycast(ray, out theItem, 1.5f))
         if (Physics.Raycast(this.transform.position, this.transform.TransformDirection(Vector3.forward), out theItem, 1.5f) && (hold == status.notHolding))
         {
             selection = theItem.transform;
