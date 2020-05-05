@@ -18,6 +18,7 @@ public class PhysicsEntityManager : UnitManager<PhysicsEntity> {
 
   public struct EntityState{
     public int id;
+    public byte mask;
     public Vector3 position;
     public Quaternion rotation;
     public Vector3 velocity;
@@ -243,6 +244,10 @@ public class PhysicsEntityManager : UnitManager<PhysicsEntity> {
     if (!inputBuffer.TryGetValue(actor, out queue)){
       queue = new Queue<InputMessage>();
       inputBuffer.Add(actor, queue);
+    }
+
+    if (actor == NetworkManager.masterID){
+      return new InputMessage{ input = GetInput, tick = tick_number };
     }
 
     if (queue.Count <= 1){

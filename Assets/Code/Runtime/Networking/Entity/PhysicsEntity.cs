@@ -5,22 +5,13 @@ using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 [RequireComponent(typeof(Rigidbody))]
-public class PhysicsEntity : Unit {
+public abstract class PhysicsEntity : Unit {
 
   [Header("Rigidbody")]
   public new Rigidbody rigidbody;
   public Transform renderTransform;
-  public float speed = 4f;
 
   public PhysicsEntityManager.ClientState[] clientStateBuffer;
-
-  // Add this to all EntityUnits
-  public static PhysicsEntity CreateEntity(){
-    return CreateEntityHelper(GameInitializer.Instance.playerPrefab);
-
-    // Example: replace null with your prefab
-    // return SetEntityHelper(null);
-  }
 
   public static PhysicsEntity CreateEntityHelper(GameObject prefab){
     var obj = Instantiate(prefab);
@@ -45,46 +36,35 @@ public class PhysicsEntity : Unit {
   public override void UpdateEntity() {
     base.UpdateEntity();
 
-    // 8 frame interperlation
-    errorpos *= (7f / 8f);
-    errorrot = Quaternion.Slerp(errorrot, Quaternion.identity, 1f / 8f);
+    InterperlateErrorState(8);
+  }
+
+  protected void InterperlateErrorState(int frames){
+    errorpos *= (frames - 1) / (float)frames;
+    errorrot = Quaternion.Slerp(errorrot, Quaternion.identity, 1f / frames);
 
     renderTransform.position = rigidbody.position + errorpos;
     renderTransform.rotation = rigidbody.rotation * errorrot;
   }
 
-  public PhysicsEntityManager.EntityState GetEntityState(){
-    PhysicsEntityManager.EntityState state;
-    state.id = entityID;
-    state.position = rigidbody.position;
-    state.rotation = rigidbody.rotation;
-    state.velocity = rigidbody.velocity;
-    state.angularVelocity = rigidbody.angularVelocity;
+  /// <summary>
+  /// Get entity state data for server to send out
+  /// </summary>
+  /// <returns></returns>
+  public abstract PhysicsEntityManager.EntityState GetEntityState();
 
-    return state;
-  }
+  /// <summary>
+  /// Save data into client predication buffer
+  /// </summary>
+  /// <param name="buffertick"></param>
+  /// <param name="input"></param>
+  public abstract void SaveClientState(int buffertick, byte input);
 
-  public void SaveClientState(int buffertick, byte input){
-    clientStateBuffer[buffertick].input = input;
-    clientStateBuffer[buffertick].position = rigidbody.position;
-    clientStateBuffer[buffertick].rotation = rigidbody.rotation;
-  }
-
-  public void ApplyInput(byte input){
-    var left = (input & 1) > 0;
-    var right = (input & 2) > 0;
-    var up = (input & 4) > 0;
-    var down = (input & 8) > 0;
-    var jump = (input & 16) > 0;
-
-    var velocity = rigidbody.velocity;
-    if (left && !right) velocity.x = -speed;
-    if (right && !left) velocity.x = speed;
-    if (up && !down) velocity.z = speed;
-    if (down && !up) velocity.z = -speed;
-    if (jump) velocity.y = speed;
-    rigidbody.velocity = velocity;
-  }
+  /// <summary>
+  /// Apply input to entity
+  /// </summary>
+  /// <param name="input"></param>
+  public abstract void ApplyInput(byte input);
 
   private Vector3 prevpos, errorpos;
   private Quaternion prevrot, errorrot;
