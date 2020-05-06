@@ -135,4 +135,5 @@ public static class StreamCustomTypes {
 
 		return (char)bytes[0];
 	}
+
 }

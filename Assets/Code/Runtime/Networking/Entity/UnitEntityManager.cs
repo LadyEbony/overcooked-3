@@ -42,4 +42,34 @@ public class UnitEntityManager : UnitManager<UnitEntity> {
     DeserializeHelper(h, (item, hash) => item.Deserialize(hash));
   }
 
+  public void Pickup(PlayerEntity player, ItemEntity item){
+    RaiseEvent('g', true, NetworkManager.ServerTimeFloat, player.authorityID, player.entityID, item.authorityID, item.entityID, (byte)0);
+  }
+
+  public void Drop(PlayerEntity player, ItemEntity item){
+    RaiseEvent('g', true, NetworkManager.ServerTimeFloat, player.authorityID, player.entityID, item.authorityID, item.entityID, (byte)1);
+  }
+
+  public void Throw(PlayerEntity player, ItemEntity item){
+    RaiseEvent('g', true, NetworkManager.ServerTimeFloat, player.authorityID, player.entityID, item.authorityID, item.entityID, (byte)2);
+  }
+
+  [NetEvent('g')]
+  public void __Pickup(float serverTime, int playerActorID, int playerEntityID, int itemActorID, int itemEntityID, byte evt){
+    var item = GameInitializer.Instance.Entity<ItemEntity>(itemActorID, itemEntityID);
+    Debug.Log(item);
+    if (item == null) return;
+
+    var player = GameInitializer.Instance.Entity<PlayerEntity>(playerActorID, playerEntityID);
+    Debug.Log(player);
+    if (player == null) return;
+
+    if (evt == 0)
+      item.Pickup(serverTime, player);
+    else if (evt == 1)
+      item.Drop(serverTime, player);
+    else if (evt == 2)
+      item.Throw(serverTime, player);
+  }
+
 }

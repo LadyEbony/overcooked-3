@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using ExitGames.Client.Photon;
 using UnityEngine;
 
-public class PlayerEntity : EntityUnit {
+public class PlayerEntity : UnitEntity {
 
-  private PlayerController controller;
+  public Transform hand;
 
-  public new static EntityUnit CreateEntity(){
+  public PlayerController controller;
+  public GrabandDrop grab;
+
+  public new static UnitEntity CreateEntity(){
     return CreateEntityHelper(GameInitializer.Instance.playerPrefab);
   }
 
@@ -15,19 +18,25 @@ public class PlayerEntity : EntityUnit {
     base.AwakeEntity();
 
     controller = GetComponent<PlayerController>();
+    grab = GetComponent<GrabandDrop>();
   }
 
   public override void StartEntity() {
     base.StartEntity();
 
-    if (!isMine){
+    if (isMine) {
+      controller.LocalStart();
+    } else {
       controller.RemoteStart();
     }
   }
 
-  private void FixedUpdate() {
-    if (isMine){
+  public override void UpdateEntity() {
+    base.UpdateEntity();
+
+    if (isMine) {
       controller.LocalUpdate();
+      grab.LocalUpdate();
     } else {
       controller.RemoteUpdate();
     }
@@ -43,16 +52,14 @@ public class PlayerEntity : EntityUnit {
   public override void Deserialize(ExitGames.Client.Photon.Hashtable h) {
     base.Deserialize(h);
 
-    object val;
-    if (h.TryGetValue('p', out val)){
-      controller.nextPosition = (Vector3)val;
-      controller.baseTime = Time.time;
-      controller.nextTime = updateTimer * 1.5f;   // grace period
-    }
+    var pos = (Vector3)h['p'];
+    controller.basePosition = transform.position;
+    controller.nextPosition = pos;
+    controller.baseTime = Time.time;
+    controller.nextTime = updateTimer * 1.25f;
 
-    if (h.TryGetValue('r', out val)){
-      transform.rotation = (Quaternion)val;
-    }
+    var rot = (Quaternion)h['r'];
+    controller.nextRotation = rot;
   }
 
 }

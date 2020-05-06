@@ -5,12 +5,15 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
   // Player Speed
-  public float playerSpeed = 5.0f;
+  public float playerSpeed = 4f;
 
   [Header("Network")]
+  public Vector3 basePosition;
   public Vector3 nextPosition;
   public float baseTime;
   public float nextTime;
+
+  public Quaternion nextRotation;
 
   private Rigidbody rb;
 
@@ -18,9 +21,12 @@ public class PlayerController : MonoBehaviour {
     rb = GetComponent<Rigidbody>();
   }
 
+  public void LocalStart(){
+    gameObject.layer = LayerMask.NameToLayer("LocalPlayer");
+  }
+
   public void RemoteStart(){
-    // We disable the collisons of other people's clients. It can collide with the player though.
-    //rb.isKinematic = true;
+    gameObject.layer = LayerMask.NameToLayer("RemotePlayer");
     rb.position = nextPosition;
   }
 
@@ -69,8 +75,11 @@ public class PlayerController : MonoBehaviour {
   public void RemoteUpdate(){
     // lerp to next position
     var lp = (Time.time - baseTime) / nextTime;
-    var lerp = Vector3.Lerp(rb.position, nextPosition, lp);
-    rb.MovePosition(lerp);
+    var pos = Vector3.Lerp(basePosition, nextPosition, lp);
+
+    rb.velocity = (pos - rb.position) / Time.fixedDeltaTime;
+
+    transform.rotation = nextRotation;
   }
 
 }

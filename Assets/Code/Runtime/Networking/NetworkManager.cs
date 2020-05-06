@@ -166,6 +166,13 @@ public class NetworkManager : MonoBehaviour {
 		}
 	}
 
+  public static int masterID{
+    get {
+      if (!inRoom) return -1;
+      return net.CurrentRoom.MasterClientId;
+    }
+  }
+
 	#endregion
 
   public static event System.Action<EventData> netHook;

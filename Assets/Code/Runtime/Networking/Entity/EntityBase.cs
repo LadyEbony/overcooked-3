@@ -330,7 +330,7 @@ public abstract class EntityBase : MonoBehaviour {
 	/// Immediately sent a network update with our current state. This includes auto tokens if IAutoSerialize is implemented.
 	/// Reliable flag, though it defaults to false, may be forced true when sending always or reliable tokens.
 	/// </summary>
-	public void UpdateNow(bool reliable = false) {
+	public void UpdateNow(bool reliable = false, RaiseEventOptions options = null) {
 		var h = new Hashtable();
 
 		Serialize(h);
@@ -343,6 +343,7 @@ public abstract class EntityBase : MonoBehaviour {
 				reliable = true;
 		}
 			
+    if (options == null) options = RaiseEventOptions.Default;
 
 		NetworkManager.netMessage(PConst.EntityUpdateCode, h, reliable);
 	}
