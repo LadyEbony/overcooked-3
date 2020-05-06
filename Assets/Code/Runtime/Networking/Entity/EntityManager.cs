@@ -156,7 +156,6 @@ namespace EntityNetwork {
 				  NetworkManager.netParticle(ebs, Color.red);
 				  return;
 			 } 
-       h.Add(PhotonConstants.actChar, (int)ev[ParameterCode.ActorNr]);
 
 			 var eb = Entity((int)h[PhotonConstants.eidChar]);
 
