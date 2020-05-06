@@ -61,7 +61,7 @@ public class ItemEntity : UnitEntity {
     if (serverTime < lastServerTime) return;
 
     rb.isKinematic = false;
-    rb.velocity = transform.forward * 5f;
+    rb.velocity = transform.forward * 5f;   // i find setting the velocity to work a lot better than force
     rb.angularVelocity = Vector3.zero;
     
     owner = null;

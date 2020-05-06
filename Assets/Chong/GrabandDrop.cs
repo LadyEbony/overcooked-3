@@ -41,6 +41,7 @@ public class GrabandDrop : MonoBehaviour {
         hold = status.notHolding;
     }
     
+  // player entity calls the scripts now
   public void LocalUpdate(){
     IndicateSelections();
     GrabAndDrop();

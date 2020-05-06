@@ -42,6 +42,9 @@ public class UnitEntityManager : UnitManager<UnitEntity> {
     DeserializeHelper(h, (item, hash) => item.Deserialize(hash));
   }
 
+  // RaiseEvent calls a function on every client
+  // including this local client
+  // it's recognized by the 'g' key
   public void Pickup(PlayerEntity player, ItemEntity item){
     RaiseEvent('g', true, NetworkManager.ServerTimeFloat, player.authorityID, player.entityID, item.authorityID, item.entityID, (byte)0);
   }
