@@ -76,8 +76,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.76, y: 0.29, z: 0.76}
-  m_Center: {x: 0.87, y: 0.34, z: 0}
+  m_Size: {x: 0.76, y: 0.29, z: 0.3}
+  m_Center: {x: 0.4, y: 0.34, z: 0}
 --- !u!114 &7117231849577652732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90,7 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c710ac1428e00bb48b0d793a820cb130, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sliceFood: {fileID: 0}
+  food: {fileID: 0}
 --- !u!1001 &261066898929557904
 PrefabInstance:
   m_ObjectHideFlags: 0

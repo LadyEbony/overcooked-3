@@ -11,6 +11,7 @@ public class Cook : MonoBehaviour
     public cabinetFood inCabinetFood;  // The cook in the CabinetFood trigger
     public cabinetSlice inCabinetSlice; //The cook in the CabinetSlice trigger
     public cabinetWork inCabinetWork; // The cook in the CabinetWork trigger
+    public cabinetArrow inCabinetArrow; // The cook in the CabinetWork trigger
 
     // Start is called before the first frame update
     void Start()
@@ -27,10 +28,10 @@ public class Cook : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             if(inCabinetFood != null)  
-            // get food from CabinetFood
+            // delete the handed food, and then get food from CabinetFood
             {
                 if (food != null) GameObject.Destroy(food.gameObject);
-                Transform parent = this.GetComponent<Transform>().GetChild(3);
+                Transform parent = this.GetComponent<Transform>().GetChild(1);
                 food = GameObject.Instantiate(inCabinetFood.food, parent.position,parent.rotation, parent);
             }
             else if ((inCabinetWork != null) && (inCabinetWork.food == null) && (food != null))
@@ -42,11 +43,11 @@ public class Cook : MonoBehaviour
                 inCabinetWork.food.transform.rotation = inCabinetWork.transform.GetChild(1).transform.rotation;
                 food = null;
             }
-            else if ((inCabinetWork != null) && (inCabinetWork.food != null) && (food == null))
+            else if ((inCabinetWork != null) && (inCabinetWork.food != null) && (inCabinetWork.food.foodStatus != FOODStatus.COOKING) && (food == null))
             // get food from CabinetWork
             {
                 food = inCabinetWork.food;
-                Transform parent = this.GetComponent<Transform>().GetChild(3);
+                Transform parent = this.GetComponent<Transform>().GetChild(1);
                 food.transform.parent = parent;
                 food.transform.position = parent.position;
                 food.transform.rotation = parent.rotation;
@@ -56,7 +57,8 @@ public class Cook : MonoBehaviour
                 && (food != null)&& (food.foodStatus == FOODStatus.SLICED))
             // fix two foods to a dish
             {
-                if((inCabinetWork.food.foodType == FOODType.FISH)&&(food.foodType == FOODType.FISH))
+                if(((inCabinetWork.food.foodType == FOODType.FISH)&&(food.foodType == FOODType.APPLE))
+                  || ((inCabinetWork.food.foodType == FOODType.APPLE) && (food.foodType == FOODType.FISH)))
                 {
                     Destroy(inCabinetWork.food.gameObject);
                     Destroy(food.gameObject);
@@ -65,7 +67,9 @@ public class Cook : MonoBehaviour
 
                     Transform parent = inCabinetWork.GetComponent<Transform>().GetChild(1);
                     inCabinetWork.food = GameObject.Instantiate(dish01, parent.position, parent.rotation, parent);
-                    //inCabinetWork.food.transform.position = parent.position;
+                    inCabinetWork.food.foodType = FOODType.DISH01;
+                    inCabinetWork.food.foodStatus = FOODStatus.COOKED;
+                    
                 }
 
             }
@@ -81,15 +85,27 @@ public class Cook : MonoBehaviour
                 inCabinetSlice.food.slicing();
                 food = null;
             }
-            else if ((inCabinetSlice != null) && (inCabinetSlice.food != null)&& (food == null))  
+            else if ((inCabinetSlice != null) && (inCabinetSlice.food != null) && (inCabinetSlice.food.foodStatus == FOODStatus.SLICED) && (food == null))  
             // get sliceFood from CabinetSlice
             {
                 food = inCabinetSlice.food;
-                Transform parent = this.GetComponent<Transform>().GetChild(3);
+                Transform parent = this.GetComponent<Transform>().GetChild(1);
                 food.transform.parent = parent;
                 food.transform.position = parent.position;
                 food.transform.rotation = parent.rotation;
                 inCabinetSlice.food = null;
+            }
+            else if ((inCabinetArrow != null) && (inCabinetArrow.food == null) 
+                    && (food != null) && (food.foodType == FOODType.DISH01))
+            // put dish to CabinetArrow
+            {
+                inCabinetArrow.food = food;
+                Transform parent = inCabinetArrow.transform.GetChild(2);
+                inCabinetArrow.food.transform.parent = parent;
+                inCabinetArrow.food.transform.position = parent.position;
+                inCabinetArrow.food.transform.rotation = parent.rotation;
+                inCabinetArrow.GetComponent<Animation>().Play("cabinetArrowTrans");
+                food = null;
             }
         }
     }

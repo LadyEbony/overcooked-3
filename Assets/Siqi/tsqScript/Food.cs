@@ -5,13 +5,15 @@ using UnityEngine;
 public enum FOODType
 {
     FISH,
-    TOMATO,
+    APPLE,
     DISH01
 }
 public enum FOODStatus
 {
     ORIGINAL,
+    SLICING,
     SLICED,
+    COOKING,
     COOKED
 }
 public class Food: MonoBehaviour
@@ -21,6 +23,7 @@ public class Food: MonoBehaviour
 
     public void slicing()
     {
+        foodStatus = FOODStatus.SLICING;
         GetComponent<Animator>().SetBool("isSlicing", true);
         foodStatus = FOODStatus.SLICED;
     }

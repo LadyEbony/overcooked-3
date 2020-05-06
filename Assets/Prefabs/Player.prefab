@@ -117,13 +117,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1375908434266181019}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.627, y: 0.271, z: 1.518}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0.627, y: 0.48, z: 1.518}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 7798667502677688095}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &2217074228598483616
 GameObject:
   m_ObjectHideFlags: 0
@@ -140,6 +140,7 @@ GameObject:
   - component: {fileID: 1682476700365480307}
   - component: {fileID: 2074725331}
   - component: {fileID: -4493709941416073498}
+  - component: {fileID: 5088845792668571262}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -155,8 +156,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2217074228598483616}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.6, z: 0.5}
   m_Children:
   - {fileID: 3606916458252586970}
   - {fileID: 4259026623054327581}
@@ -284,11 +285,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   item: {fileID: 0}
   MC: {fileID: 0}
-  rightHand: {fileID: 0}
-  offset: {x: 0, y: 0, z: 0}
+  holdSlot: {fileID: 0}
+  fw: {x: 0, y: 0, z: 0}
+  speed: 0
   selection: {fileID: 0}
   curSelection: {fileID: 0}
   curItem: {fileID: 0}
   selectableTag: Selectable
   highlightMaterial: {fileID: 2100000, guid: a8178b1eec032488f9bb5f0ae4476985, type: 2}
   defaultMaterial: {fileID: 2100000, guid: dc3f5747d6c204377951971e01c5188e, type: 2}
+--- !u!114 &5088845792668571262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2217074228598483616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc3b1a06e139e1449a2fcb3b425b38a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dish01: {fileID: 2602517452689141911, guid: ff86de545f3158644861a8ca50ea73ad, type: 3}
+  food: {fileID: 0}
+  inCabinetFood: {fileID: 0}
+  inCabinetSlice: {fileID: 0}
+  inCabinetWork: {fileID: 0}
+  inCabinetArrow: {fileID: 0}
