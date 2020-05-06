@@ -19,6 +19,7 @@ public class GrabandDrop : MonoBehaviour {
     public Transform curSelection;
     public RaycastHit theItem;
     public Transform curItem;
+    public Material defaultMaterial;
 
     enum status { holding, notHolding };
 
@@ -26,7 +27,7 @@ public class GrabandDrop : MonoBehaviour {
 
     [SerializeField] private string selectableTag = "Selectable";
     [SerializeField] private Material highlightMaterial;
-    [SerializeField] private Material defaultMaterial;
+    //[SerializeField] private Material defaultMaterial;
 
 
 
@@ -89,6 +90,8 @@ public class GrabandDrop : MonoBehaviour {
 
                 if (selectionRender != null)
                 {
+                    //New
+                    defaultMaterial = selection.GetComponent<Renderer>().material;
                     selectionRender.material = highlightMaterial;
                 }
                 curSelection = selection;
