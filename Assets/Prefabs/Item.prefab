@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4033222092485773835}
   - component: {fileID: 1426554890}
   m_Layer: 11
-  m_Name: item1
+  m_Name: Item
   m_TagString: Selectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -126,5 +126,7 @@ MonoBehaviour:
   entityID: 0
   authorityID: 0
   updateTimer: 0.1
+  defaultMaterial: {fileID: 2100000, guid: 5d6f09330959fe343b418902cc7b47ef, type: 2}
+  selectedMaterial: {fileID: 2100000, guid: b417e59b3ac3fff4faa192292b46dc7e, type: 2}
   owner: {fileID: 0}
-  lastServerTime: 0
+  lastServerTime: -3.4028235e+38

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1063929103}
   - component: {fileID: 1991214172}
   m_Layer: 0
-  m_Name: Player Physics
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -114,17 +114,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   held: {fileID: 0}
-  item: {fileID: 0}
-  MC: {fileID: 0}
-  holdSlot: {fileID: 0}
-  fw: {x: 0, y: 0, z: 0}
-  speed: 0
-  selection: {fileID: 0}
-  curSelection: {fileID: 0}
-  curItem: {fileID: 0}
-  selectableTag: Selectable
-  highlightMaterial: {fileID: 0}
-  defaultMaterial: {fileID: 0}
+  player: {fileID: 0}
+  interactionDistance: 1.5
+  interactionLayerMask:
+    serializedVersion: 2
+    m_Bits: 3072
 --- !u!1 &4966691184003045492
 GameObject:
   m_ObjectHideFlags: 0
