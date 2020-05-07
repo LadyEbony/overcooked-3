@@ -115,10 +115,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   held: {fileID: 0}
   player: {fileID: 0}
-  interactionDistance: 1.5
   interactionLayerMask:
     serializedVersion: 2
     m_Bits: 3072
+  interactionOffset: 1
+  interactionDistance: 1
 --- !u!1 &4966691184003045492
 GameObject:
   m_ObjectHideFlags: 0

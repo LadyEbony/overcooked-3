@@ -10,13 +10,11 @@ public class GrabandDrop : MonoBehaviour {
   public bool holding => held != null;
 
   public IInteractable interacting;
-  public float interactionDistance = 1.5f;
+
+  [Header("Interaction")]
   public LayerMask interactionLayerMask;
-
-    public Collider[] hitColliders;
-    public float minDis;
-
-    
+  public float interactionOffset = 1.5f;
+  public float interactionDistance = 1f;
 
   /*
     public GameObject item;
@@ -92,37 +90,42 @@ public class GrabandDrop : MonoBehaviour {
       // generic approach to deselect
       if (interacting != null){
         interacting.OnDeselect(player);
-        interacting = null;
       }
 
-        // generic approach to select
-        // should result an array of hits, and pick the closest hit that's interactable
+      // generic approach to select
+      // should result an array of hits, and pick the closest hit that's interactable
 
-        //RaycastHit hit;
-        Collider hit = null;
+      //RaycastHit hit;
+      GetInteractionBox(out var center, out var size);
+      var hitColliders = Physics.OverlapBox(center, size * 0.5f, Quaternion.identity, interactionLayerMask);
 
-        hitColliders = Physics.OverlapBox(this.transform.position + this.transform.forward * 2, transform.localScale);
-        minDis = float.MaxValue;
-
-        foreach (Collider hitCol in hitColliders)
-        {
-            var distance = Vector3.Distance(this.transform.position, hitCol.transform.position);
-
-            if (distance < minDis)
-            {
-                minDis = distance;
-                hit = hitCol;
-            }
+      IInteractable hit = null;
+      float minDis = float.MaxValue;
+      foreach (Collider hitCol in hitColliders) {
+        // moved interactable check here
+        var interact = hitCol.transform.GetComponent<IInteractable>();
+        if (interact != null && interact.IsInteractable(player)){
+          var sqrdis = Vector3.SqrMagnitude(transform.position - hitCol.transform.position);
+          if (sqrdis < minDis){
+            minDis = sqrdis;
+            hit = interact;
+          }
         }
 
-        if (hit != null) { 
-      //if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, interactionDistance, interactionLayerMask)){
-        interacting = hit.transform.GetComponent<IInteractable>();
-        if (interacting != null && interacting.IsInteractable(player)){
-          interacting.OnSelect(player);
-        } else {
-          interacting = null;
-        }
+        /*
+          var distance = Vector3.Distance(this.transform.position, hitCol.transform.position);
+
+          if (distance < minDis)
+          {
+              minDis = distance;
+              hit = hitCol;
+          }
+        */
+      }
+      interacting = hit;
+
+      if (interacting != null) { 
+        interacting.OnSelect(player);
       }
      
         // I moved the renderer to ItemEntity
@@ -161,5 +164,16 @@ public class GrabandDrop : MonoBehaviour {
 
         */
     }
+
+  private void GetInteractionBox(out Vector3 center, out Vector3 size){
+    center = transform.position + transform.forward * interactionOffset;
+    size = Vector3.one * interactionDistance;
+  }
+
+  public void OnDrawGizmosSelected() {
+    GetInteractionBox(out var center, out var size);
+    Gizmos.color = Color.blue;
+    Gizmos.DrawWireCube(center, size);
+  }
 }
 
