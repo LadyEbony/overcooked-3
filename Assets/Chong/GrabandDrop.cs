@@ -13,6 +13,11 @@ public class GrabandDrop : MonoBehaviour {
   public float interactionDistance = 1.5f;
   public LayerMask interactionLayerMask;
 
+    public Collider[] hitColliders;
+    public float minDis;
+
+    
+
   /*
     public GameObject item;
     public Transform MC;
@@ -90,10 +95,28 @@ public class GrabandDrop : MonoBehaviour {
         interacting = null;
       }
 
-      // generic approach to select
-      // should result an array of hits, and pick the closest hit that's interactable
-      RaycastHit hit;
-      if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, interactionDistance, interactionLayerMask)){
+        // generic approach to select
+        // should result an array of hits, and pick the closest hit that's interactable
+
+        //RaycastHit hit;
+        Collider hit = null;
+
+        hitColliders = Physics.OverlapBox(this.transform.position + this.transform.forward * 2, transform.localScale);
+        minDis = float.MaxValue;
+
+        foreach (Collider hitCol in hitColliders)
+        {
+            var distance = Vector3.Distance(this.transform.position, hitCol.transform.position);
+
+            if (distance < minDis)
+            {
+                minDis = distance;
+                hit = hitCol;
+            }
+        }
+
+        if (hit != null) { 
+      //if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, interactionDistance, interactionLayerMask)){
         interacting = hit.transform.GetComponent<IInteractable>();
         if (interacting != null && interacting.IsInteractable(player)){
           interacting.OnSelect(player);
@@ -101,42 +124,42 @@ public class GrabandDrop : MonoBehaviour {
           interacting = null;
         }
       }
+     
+        // I moved the renderer to ItemEntity
 
-      // I moved the renderer to ItemEntity
+        /*
 
-      /*
+          if (curSelection != null)
+          {
+              var selectionRenderer = curSelection.GetComponent<Renderer>();
+              selectionRenderer.material = defaultMaterial;
+              curSelection = null;
+          }
 
-        if (curSelection != null)
-        {
-            var selectionRenderer = curSelection.GetComponent<Renderer>();
-            selectionRenderer.material = defaultMaterial;
-            curSelection = null;
-        }
+          if (Physics.Raycast(this.transform.position, this.transform.TransformDirection(Vector3.forward), out theItem, 1.5f) && (hold == status.notHolding))
+          {
+              selection = theItem.transform;
 
-        if (Physics.Raycast(this.transform.position, this.transform.TransformDirection(Vector3.forward), out theItem, 1.5f) && (hold == status.notHolding))
-        {
-            selection = theItem.transform;
+              if (selection.CompareTag(selectableTag))
+              {
+                  var selectionRender = selection.GetComponent<Renderer>();
 
-            if (selection.CompareTag(selectableTag))
-            {
-                var selectionRender = selection.GetComponent<Renderer>();
+                  if (selectionRender != null)
+                  {
+                      //New
+                      defaultMaterial = selection.GetComponent<Renderer>().material;
+                      selectionRender.material = highlightMaterial;
+                  }
+                  curSelection = selection;
+              }
+          }
+          else
+          {
+              Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.magenta);
+              Debug.Log("Did not Hit");
+          }
 
-                if (selectionRender != null)
-                {
-                    //New
-                    defaultMaterial = selection.GetComponent<Renderer>().material;
-                    selectionRender.material = highlightMaterial;
-                }
-                curSelection = selection;
-            }
-        }
-        else
-        {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.magenta);
-            Debug.Log("Did not Hit");
-        }
-
-      */
+        */
     }
 }
 
