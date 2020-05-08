@@ -12,6 +12,7 @@ public class Cook : MonoBehaviour
     public cabinetSlice inCabinetSlice; //The cook in the CabinetSlice trigger
     public cabinetWork inCabinetWork; // The cook in the CabinetWork trigger
     public cabinetArrow inCabinetArrow; // The cook in the CabinetWork trigger
+    public DeliveryTile inDeliveryTile; // The cook in the DeliveryTile trigger
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +20,7 @@ public class Cook : MonoBehaviour
         inCabinetFood = null;
         inCabinetSlice = null;
         inCabinetWork = null;
+        inDeliveryTile = null;
 
         food = null;
     }
@@ -106,6 +108,29 @@ public class Cook : MonoBehaviour
                 inCabinetArrow.food.transform.rotation = parent.rotation;
                 inCabinetArrow.GetComponent<Animation>().Play("cabinetArrowTrans");
                 food = null;
+            }
+            else if (inDeliveryTile != null) 
+            {
+                // player is inside delivery tile trigger
+                if (food != null && inDeliveryTile.food == null)
+                {
+                    // place food on delivery tile
+                    inDeliveryTile.food = food;
+                    inDeliveryTile.food.transform.parent = inCabinetWork.transform.GetChild(1);
+                    inDeliveryTile.food.transform.position = inCabinetWork.transform.GetChild(1).transform.position;
+                    inDeliveryTile.food.transform.rotation = inCabinetWork.transform.GetChild(1).transform.rotation;
+                    food = null;
+                }
+                else if (food == null && inDeliveryTile.food != null)
+                {
+                    // pickup food from delivery tile
+                    food = inDeliveryTile.food;
+                    Transform parent = this.GetComponent<Transform>().GetChild(1);
+                    food.transform.parent = parent;
+                    food.transform.position = parent.position;
+                    food.transform.rotation = parent.rotation;
+                    inDeliveryTile.food = null;
+                }
             }
         }
     }
