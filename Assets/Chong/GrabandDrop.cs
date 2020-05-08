@@ -16,28 +16,39 @@ public class GrabandDrop : MonoBehaviour {
   public float interactionOffset = 1.5f;
   public float interactionDistance = 1f;
 
-  /*
-    public GameObject item;
-    public Transform MC;
-    public Transform holdSlot;
-    public Vector3 fw;
-    public float speed;
+  //Variables for sound effects
+  public AudioSource source;
+  public AudioClip pickUp;
+  public AudioClip drop;
+  public AudioClip throwItem;
 
-    public Transform selection;
-    public Transform curSelection;
-    public RaycastHit theItem;
-    public Transform curItem;
-    public Material defaultMaterial;
+    /*
+      public GameObject item;
+      public Transform MC;
+      public Transform holdSlot;
+      public Vector3 fw;
+      public float speed;
 
-    enum status { holding, notHolding };
+      public Transform selection;
+      public Transform curSelection;
+      public RaycastHit theItem;
+      public Transform curItem;
+      public Material defaultMaterial;
 
-    status hold;
+      enum status { holding, notHolding };
 
-    [SerializeField] private string selectableTag = "Selectable";
-    [SerializeField] private Material highlightMaterial;
-    //[SerializeField] private Material defaultMaterial;
+      status hold;
 
-    */
+      [SerializeField] private string selectableTag = "Selectable";
+      [SerializeField] private Material highlightMaterial;
+      //[SerializeField] private Material defaultMaterial;
+
+      */
+
+    void Awake()
+    {
+        source = GetComponent<AudioSource>();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -63,6 +74,8 @@ public class GrabandDrop : MonoBehaviour {
   void OnInteracting(){
     // allows you to make any script 'interactable'
     if (Input.GetKey(KeyCode.E) && interacting != null){
+      //playing pick up sound
+      source.PlayOneShot(pickUp, 2.0f);
       interacting.Activate(player);
     }
   }
@@ -72,10 +85,12 @@ public class GrabandDrop : MonoBehaviour {
     {
         if (Input.GetKey(KeyCode.Q) && holding)
         {
+            source.PlayOneShot(drop, 1f);
             UnitEntityManager.Local.Drop(player, held);
         }
 
         if (Input.GetKey(KeyCode.R) && holding){
+            source.PlayOneShot(throwItem, 2.0f);
             UnitEntityManager.Local.Throw(player, held);
         }
 

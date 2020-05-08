@@ -86,7 +86,7 @@ public class ItemEntity : UnitEntity, IInteractable {
     if (serverTime < lastServerTime) return;
 
     rb.isKinematic = false;
-    rb.velocity = transform.forward * 5f;   // i find setting the velocity to work a lot better than force
+    rb.velocity = transform.forward * 10f;   // i find setting the velocity to work a lot better than force
     rb.angularVelocity = Vector3.zero;
     
     owner = null;

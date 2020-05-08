@@ -7,7 +7,12 @@ public class PlayerController : MonoBehaviour {
   // Player Speed
   public float playerSpeed = 4f;
 
-  [Header("Network")]
+    
+    //Variables for footsteps sound effect
+  public AudioSource source;
+  public AudioClip footsteps;
+  
+    [Header("Network")]
   public Vector3 basePosition;
   public Vector3 nextPosition;
   public float baseTime;
@@ -19,7 +24,8 @@ public class PlayerController : MonoBehaviour {
 
   private void Awake() {
     rb = GetComponent<Rigidbody>();
-  }
+    source = GetComponent<AudioSource>();
+    }
 
   public void LocalStart(){
     gameObject.layer = LayerMask.NameToLayer("LocalPlayer");
@@ -30,7 +36,24 @@ public class PlayerController : MonoBehaviour {
     rb.position = nextPosition;
   }
 
-  public void LocalUpdate(){
+  public void Update(){
+        playFSSound();
+  }
+
+  public void playFSSound(){
+        if (rb.velocity.sqrMagnitude > 0)
+        {
+            if (!source.isPlaying)
+            {
+                source.clip = footsteps;
+                source.volume = Random.Range(0.7f, 1);
+                source.pitch = Random.Range(0.4f, 0.5f);
+                source.Play();
+            }
+        }
+  }
+
+    public void LocalUpdate(){
 
     /*
     // Get vertical and horizontal input
@@ -67,10 +90,11 @@ public class PlayerController : MonoBehaviour {
     if (delta != Vector3.zero){
       transform.rotation = Quaternion.LookRotation(delta);
     }
-
+    
     // move player
     rb.velocity = delta * playerSpeed;
-  }
+       
+    }
 
   public void RemoteUpdate(){
     // lerp to next position
