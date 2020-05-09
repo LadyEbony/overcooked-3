@@ -73,10 +73,14 @@ public class GrabandDrop : MonoBehaviour {
 
   void OnInteracting(){
     // allows you to make any script 'interactable'
-    if (Input.GetKey(KeyCode.E) && interacting != null){
-      //playing pick up sound
-      source.PlayOneShot(pickUp, 2.0f);
-      interacting.Activate(player);
+    if (interacting != null){
+      if(Input.GetKeyDown(KeyCode.E)){
+        //playing pick up sound
+        source.PlayOneShot(pickUp, 2.0f);
+        interacting.Activate(player);
+      } else if (Input.GetKeyDown(KeyCode.F)){
+        interacting.ActivateAlt(player);
+      }
     }
   }
 

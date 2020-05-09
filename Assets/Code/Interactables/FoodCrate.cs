@@ -23,6 +23,8 @@ public class FoodCrate : MonoBehaviour, IInteractable {
     item.Activate(player);
   }
 
+  public void ActivateAlt(PlayerEntity player) { }
+
   public void OnSelect(PlayerEntity player) {
     renderer.material = selectedMaterial;
   }

@@ -109,4 +109,4 @@ MonoBehaviour:
   defaultMaterial: {fileID: -3000846378788527790, guid: d606fde58782bc24cb3f3158bab064a4,
     type: 3}
   selectedMaterial: {fileID: 2100000, guid: c84dda17c95484eaca9d29a983138b14, type: 2}
-  cut: -1
+  cut: 5
