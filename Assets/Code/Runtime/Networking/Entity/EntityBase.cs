@@ -100,13 +100,7 @@ public abstract class EntityBase : MonoBehaviour {
 	}
 
 	public void RaiseEvent(char c, bool includeLocal, params object[] parameters) {
-		var h = new Hashtable();
-
-		AppendIDs(h);
-
-		h.Add(0, c);
-		if (parameters != null)
-			h.Add(1, parameters);
+		var h = RaiseEventGet(c, parameters);
 
 		NetworkManager.netMessage(PhotonConstants.EntityEventCode, h, true);
 
@@ -114,6 +108,17 @@ public abstract class EntityBase : MonoBehaviour {
 			InternallyInvokeEvent(c, parameters);
 		}
 	}
+
+  protected Hashtable RaiseEventGet(char c, params object[] parameters){
+    var h = new Hashtable();
+		AppendIDs(h);
+
+    h.Add(0, c);
+		if (parameters != null)
+			h.Add(1, parameters);
+
+    return h;
+  }
 
   public static void RaiseStaticEvent<T>(char c, bool includeLocal, params object[] parameters) where T : EntityBase{
     var h = new Hashtable();

@@ -12,6 +12,7 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 public abstract class UnitManager<T> : EntityBase, IMasterOwnsUnclaimed where T: Unit{
 
   public Dictionary<int, T> entities;
+  public List<Hashtable> functions;
 
   public static Dictionary<System.Type, int> typeConversion;
   public static Dictionary<int, MethodInfo> createConversion;
@@ -27,8 +28,6 @@ public abstract class UnitManager<T> : EntityBase, IMasterOwnsUnclaimed where T:
       var value = t.ToString().GetStableHashCode();
       // and get the method info
       var method = t.GetMethod("CreateEntity", BindingFlags.Public | BindingFlags.Static);
-      Debug.Log(t);
-      Debug.Log(method);
       typeConversion.Add(t, value);
       createConversion.Add(value, method);
     }
@@ -37,7 +36,9 @@ public abstract class UnitManager<T> : EntityBase, IMasterOwnsUnclaimed where T:
 
   public override void Awake(){
     base.Awake();
+
     entities = new Dictionary<int, T>();
+    functions = new List<Hashtable>();
   }
 
   void Update(){
@@ -50,6 +51,7 @@ public abstract class UnitManager<T> : EntityBase, IMasterOwnsUnclaimed where T:
 
     if (NetworkManager.inRoom && isMine){
       UpdateNow();
+      SendFunctions();
     }
   }
 
@@ -124,6 +126,36 @@ public abstract class UnitManager<T> : EntityBase, IMasterOwnsUnclaimed where T:
       
     }
 
+  }
+
+  public void RaiseEvent(Unit unit, char c, bool includeLocal, object[] parameters){
+    var h = RaiseEventGet('f', new object[]{ c, unit.authorityID, unit.entityID, parameters } );
+
+    functions.Add(h);
+
+    if (includeLocal){
+      //InternallyInvokeEvent('f', new object[]{ c, unit.authorityID, unit.entityID, parameters });
+      CallNetworkFunction(c, unit, parameters);
+    }
+  }
+
+  public void SendFunctions(){
+    foreach(var f in functions){
+      NetworkManager.netMessage(PhotonConstants.EntityEventCode, f, true);
+    }
+    functions.Clear();
+  }
+
+  [NetEvent('f')]
+  protected void CallNetworkFunction(char c, int authorityID, int entityID, object[] parameters){
+    var entity = GameInitializer.Instance.Entity<UnitEntity>(authorityID, entityID);
+    if (entity){
+      CallNetworkFunction(c, entity, parameters);
+    }
+  }
+
+  private void CallNetworkFunction(char c, Unit unit, object[] parameters){
+    unit.InternallyInvokeEvent(c, parameters);
   }
 
   void OnDestroy(){

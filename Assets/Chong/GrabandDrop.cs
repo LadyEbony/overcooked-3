@@ -86,12 +86,12 @@ public class GrabandDrop : MonoBehaviour {
         if (Input.GetKey(KeyCode.Q) && holding)
         {
             source.PlayOneShot(drop, 1f);
-            UnitEntityManager.Local.Drop(player, held);
+            held.RaiseEvent('d', true, NetworkManager.ServerTimeFloat, player.authorityID, player.entityID);
         }
 
         if (Input.GetKey(KeyCode.R) && holding){
             source.PlayOneShot(throwItem, 2.0f);
-            UnitEntityManager.Local.Throw(player, held);
+            held.RaiseEvent('t', true, NetworkManager.ServerTimeFloat, player.authorityID, player.entityID);
         }
 
     }
@@ -118,7 +118,7 @@ public class GrabandDrop : MonoBehaviour {
       float minDis = float.MaxValue;
       foreach (Collider hitCol in hitColliders) {
         // moved interactable check here
-        var interact = hitCol.transform.GetComponent<IInteractable>();
+        var interact = hitCol.transform.GetComponentInParent<IInteractable>();
         if (interact != null && interact.IsInteractable(player)){
           var sqrdis = Vector3.SqrMagnitude(transform.position - hitCol.transform.position);
           if (sqrdis < minDis){

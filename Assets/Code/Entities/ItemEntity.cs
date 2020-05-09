@@ -5,14 +5,16 @@ using UnityEngine;
 
 public class ItemEntity : UnitEntity, IInteractable {
 
+  private ItemDescription description;
   private Rigidbody rb;
   private new Renderer renderer;
 
-  public Material defaultMaterial;
-  public Material selectedMaterial;
-
   public PlayerEntity owner;
   public float lastServerTime = float.MinValue;
+  public int itemIndex;
+
+  public Material defaultMaterial => description.defaultMaterial;
+  public Material selectedMaterial => description.selectedMaterial;
 
   public new static UnitEntity CreateEntity(){
     return CreateEntityHelper(GameInitializer.Instance.aiPrefab);
@@ -22,7 +24,16 @@ public class ItemEntity : UnitEntity, IInteractable {
     base.AwakeEntity();
 
     rb = GetComponent<Rigidbody>();
-    renderer = GetComponent<Renderer>();
+  }
+
+  public override void StartEntity() {
+    base.StartEntity();
+
+    var prefab = ItemContainer.Instance.prefabs[itemIndex];
+    var obj = Instantiate(prefab, transform);
+    description = obj.GetComponent<ItemDescription>();
+
+    renderer = obj.GetComponent<Renderer>();
   }
 
   private void LateUpdate() {
@@ -37,7 +48,7 @@ public class ItemEntity : UnitEntity, IInteractable {
   }
 
   public void Activate(PlayerEntity player){
-    UnitEntityManager.Local.Pickup(player, this);
+    RaiseEvent('p', true, NetworkManager.ServerTimeFloat, player.authorityID, player.entityID);
   }
 
   public void OnSelect(PlayerEntity player) {
@@ -48,12 +59,12 @@ public class ItemEntity : UnitEntity, IInteractable {
     renderer.material = defaultMaterial;
   }
 
-  public void Pickup(float serverTime, PlayerEntity player){
+  [EntityBase.NetEvent('p')]
+  public void Pickup(float serverTime, int playerAID, int playerEID){
     // only recognize the latest
-    Debug.Log("pickup");
-    Debug.Log(serverTime);
     if (serverTime < lastServerTime) return;
-    Debug.Log("pickup2");
+    var player = GameInitializer.Instance.Entity<PlayerEntity>(playerAID, playerEID);
+    if (player == null) return;
 
     if (owner) owner.grab.held = null;
 
@@ -67,9 +78,12 @@ public class ItemEntity : UnitEntity, IInteractable {
     lastServerTime = serverTime;
   }
 
-  public void Drop(float serverTime, PlayerEntity player){
+  [EntityBase.NetEvent('d')]
+  public void Drop(float serverTime, int playerAID, int playerEID){
     // only recognize the latest
     if (serverTime < lastServerTime) return;
+    var player = GameInitializer.Instance.Entity<PlayerEntity>(playerAID, playerEID);
+    if (player == null) return;
 
     rb.isKinematic = false;
     rb.velocity = Vector3.zero;
@@ -81,9 +95,12 @@ public class ItemEntity : UnitEntity, IInteractable {
     lastServerTime = serverTime;
   }
 
-  public void Throw(float serverTime, PlayerEntity player){
+  [EntityBase.NetEvent('t')]
+  public void Throw(float serverTime, int playerAID, int playerEID){
     // only recognize the latest
     if (serverTime < lastServerTime) return;
+    var player = GameInitializer.Instance.Entity<PlayerEntity>(playerAID, playerEID);
+    if (player == null) return;
 
     rb.isKinematic = false;
     rb.velocity = transform.forward * 10f;   // i find setting the velocity to work a lot better than force
@@ -93,37 +110,6 @@ public class ItemEntity : UnitEntity, IInteractable {
     player.grab.held = null;
 
     lastServerTime = serverTime;
-  }
-
-  public override void Serialize(ExitGames.Client.Photon.Hashtable h) {
-    base.Serialize(h);
-
-    if (owner){
-      h.Add('a', owner.authorityID);
-      h.Add('e', owner.entityID);
-    }
-    
-  }
-
-  public override void Deserialize(ExitGames.Client.Photon.Hashtable h) {
-    base.Deserialize(h);
-
-    if (h.ContainsKey('a')){
-      var auth = (int)h['a'];
-      var eith = (int)h['e'];
-      var own = GameInitializer.Instance.Entity<PlayerEntity>(auth, eith);
-
-      if (own){
-        owner = own;
-        owner.grab.held = this;;
-        return;
-      }
-    }
-
-    if (owner){
-      owner.grab.held = null;
-    }
-    owner = null;
   }
 
 }
