@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CuttingBoard : Cabient, IInteractable {
+public class CuttingBoard : Cabient, IInteractableAlt {
 
-  public override void ActivateAlt(PlayerEntity player) {
-    var playerheld = player.grab.held;
-    if (!playerheld && item) {
+  public int IsInteractableAlt(PlayerEntity player) {
+    return PlayerHoldingNothingOnFullCabient(player) ? 1 : int.MaxValue;
+  }
+
+  public void ActivateAlt(PlayerEntity player) {
+    if (PlayerHoldingNothingOnFullCabient(player) && item.description.cut > 0) {
       item.RaiseEvent('c', true);
     }
   }

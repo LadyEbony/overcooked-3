@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Cabient : MonoBehaviour, IInteractable {
+public class Cabient : MonoBehaviour, IInteractableBase {
   
   private new Renderer renderer;
 
@@ -15,8 +15,7 @@ public class Cabient : MonoBehaviour, IInteractable {
   public Material selectedMaterial;
   public Transform placeTransform;
 
-  [Header("Item")]
-  public ItemEntity item;
+  public ItemEntity item => DoubleDictionary<Cabient, ItemEntity>.Get(this);
 
   static Cabient(){
     cabients = new Dictionary<int, Cabient>();
@@ -28,19 +27,13 @@ public class Cabient : MonoBehaviour, IInteractable {
   }
 
   public void Activate(PlayerEntity player) {
-    var playerheld = player.grab.held;
-    if (playerheld && !item){
-      playerheld.RaiseEvent('l', true, NetworkManager.ServerTimeFloat, player.authorityID, player.entityID, id);
-    } else if (!playerheld && item) {
-      item.RaiseEvent('p', true, NetworkManager.ServerTimeFloat, player.authorityID, player.entityID);
+    if (PlayerHoldingItemOnEmptyCabient(player, out var held)){
+      held.RaiseEvent('l', true, NetworkManager.ServerTimeFloat, id);
     }
   }
 
-  public virtual void ActivateAlt(PlayerEntity player) { }
-
-  public bool IsInteractable(PlayerEntity player) {
-    var playerheld = player.grab.held;
-    return (playerheld && !item) || (!playerheld && item);
+  public int IsInteractable(PlayerEntity player) {
+    return PlayerHoldingItemOnEmptyCabient(player) ? 2 : int.MaxValue;
   }
 
   public void OnSelect(PlayerEntity player) {
@@ -49,6 +42,27 @@ public class Cabient : MonoBehaviour, IInteractable {
 
   public void OnDeselect(PlayerEntity player) {
     renderer.material = defaultMaterial;
+  }
+
+  protected bool PlayerHoldingItemOnEmptyCabient(PlayerEntity player){
+    var held = player.held;
+    return held && !item;
+  }
+
+  protected bool PlayerHoldingItemOnEmptyCabient(PlayerEntity player, out ItemEntity held){
+    held = player.held;
+    return held && !item;
+  }
+
+  protected bool PlayerHoldingNothingOnFullCabient(PlayerEntity player){
+    var held = player.held;
+    return !held && item;
+  }
+
+  protected bool PlayerHoldingNothingOnFullCabient(PlayerEntity player, out ItemEntity held){
+    held = player.held;
+    Debug.LogFormat("{0}, {1}", held, item);
+    return !held && item;
   }
 
 }

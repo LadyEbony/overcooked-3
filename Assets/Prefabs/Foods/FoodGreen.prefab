@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4033222092485773879}
   - component: {fileID: 697242155769207139}
   m_Layer: 11
-  m_Name: FoodDefault
+  m_Name: FoodGreen
   m_TagString: Selectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -60,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: dc3f5747d6c204377951971e01c5188e, type: 2}
+  - {fileID: 2100000, guid: cd85df5406c8c35499cbb7a6326b53a8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -106,7 +106,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2192b8cf8629afb43a04834b21f7218b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultMaterial: {fileID: -3000846378788527790, guid: d606fde58782bc24cb3f3158bab064a4,
-    type: 3}
+  defaultMaterial: {fileID: 2100000, guid: cd85df5406c8c35499cbb7a6326b53a8, type: 2}
   selectedMaterial: {fileID: 2100000, guid: c84dda17c95484eaca9d29a983138b14, type: 2}
   cut: 5

@@ -4,24 +4,18 @@ using ExitGames.Client.Photon;
 using UnityEngine;
 using TMPro;
 
-public class ItemEntity : UnitEntity, IInteractable {
+public abstract class ItemEntity : UnitEntity, IInteractableBase {
 
-  private Rigidbody rb;
-  private new Renderer renderer;
-  private TextMeshPro debug;
+  protected Rigidbody rb;
+  protected new Renderer renderer;
+  protected TextMeshPro debug;
 
-  public PlayerEntity owner;
-  public Cabient cabient;
   public ItemDescription description;
   public float lastServerTime = float.MinValue;
-  public int itemIndex;
 
   public Material defaultMaterial => description.defaultMaterial;
   public Material selectedMaterial => description.selectedMaterial;
-
-  public new static UnitEntity CreateEntity() {
-    return CreateEntityHelper(GameInitializer.Instance.aiPrefab);
-  }
+  public PlayerEntity owner => DoubleDictionary<PlayerEntity, ItemEntity>.Get(this);
 
   public override void AwakeEntity() {
     base.AwakeEntity();
@@ -30,17 +24,8 @@ public class ItemEntity : UnitEntity, IInteractable {
     debug = GetComponentInChildren<TextMeshPro>();
   }
 
-  public override void StartEntity() {
-    base.StartEntity();
-
-    var prefab = ItemContainer.Instance.prefabs[itemIndex];
-    var obj = Instantiate(prefab, transform);
-    description = obj.GetComponent<ItemDescription>();
-
-    renderer = obj.GetComponent<Renderer>();
-  }
-
   private void LateUpdate() {
+    var owner = this.owner;
     if (owner) {
       transform.position = owner.hand.position;
       transform.rotation = owner.hand.rotation;
@@ -51,15 +36,17 @@ public class ItemEntity : UnitEntity, IInteractable {
     }
   }
 
-  public bool IsInteractable(PlayerEntity player) {
-    return !player.grab.held && !cabient;
+  public virtual int IsInteractable(PlayerEntity player) {
+    var held = player.held;
+    return held == null ? 2 : int.MaxValue;
   }
 
-  public void Activate(PlayerEntity player) {
-    RaiseEvent('p', true, NetworkManager.ServerTimeFloat, player.authorityID, player.entityID);
+  public virtual void Activate(PlayerEntity player) {
+    var held = player.held;
+    if (held == null){
+      RaiseEvent('p', true, NetworkManager.ServerTimeFloat, player.authorityID, player.entityID);
+    }
   }
-
-  public void ActivateAlt(PlayerEntity player) { }
 
   public void OnSelect(PlayerEntity player) {
     renderer.material = selectedMaterial;
@@ -76,80 +63,73 @@ public class ItemEntity : UnitEntity, IInteractable {
     var player = GameInitializer.Instance.Entity<PlayerEntity>(playerAID, playerEID);
     if (player == null) return;
 
-    if (owner) owner.grab.held = null;
+    DoubleDictionary<PlayerEntity, ItemEntity>.Remove(this);
 
     rb.isKinematic = true;
     rb.velocity = Vector3.zero;
     rb.angularVelocity = Vector3.zero;
 
-    owner = player;
-    player.grab.held = this;
-
-    if (cabient){
-      if (cabient.item == this){
-        cabient.item = null;
-      }
-      cabient = null;
-    }
+    DoubleDictionary<PlayerEntity, ItemEntity>.Set(player, this);
+    DoubleDictionary<Cabient, ItemEntity>.Remove(this);
 
     lastServerTime = serverTime;
   }
 
   [EntityBase.NetEvent('d')]
-  public void Drop(float serverTime, int playerAID, int playerEID) {
+  public void Drop(float serverTime) {
     // only recognize the latest
     if (serverTime < lastServerTime) return;
-    var player = GameInitializer.Instance.Entity<PlayerEntity>(playerAID, playerEID);
-    if (player == null) return;
 
     rb.isKinematic = false;
     rb.velocity = Vector3.zero;
     rb.angularVelocity = Vector3.zero;
 
-    owner = null;
-    player.grab.held = null;
-
-    if (cabient){
-      if (cabient.item == this){
-        cabient.item = null;
-      }
-      cabient = null;
-    }
+    DoubleDictionary<PlayerEntity, ItemEntity>.Remove(this);
+    DoubleDictionary<Cabient, ItemEntity>.Remove(this);
 
     lastServerTime = serverTime;
   }
 
   [EntityBase.NetEvent('t')]
-  public void Throw(float serverTime, int playerAID, int playerEID) {
+  public void Throw(float serverTime) {
     // only recognize the latest
     if (serverTime < lastServerTime) return;
-    var player = GameInitializer.Instance.Entity<PlayerEntity>(playerAID, playerEID);
-    if (player == null) return;
 
     rb.isKinematic = false;
     rb.velocity = transform.forward * 10f;   // i find setting the velocity to work a lot better than force
     rb.angularVelocity = Vector3.zero;
 
-    owner = null;
-    player.grab.held = null;
-
-    if (cabient){
-      if (cabient.item == this){
-        cabient.item = null;
-      }
-      cabient = null;
-    }
+    DoubleDictionary<PlayerEntity, ItemEntity>.Remove(this);
+    DoubleDictionary<Cabient, ItemEntity>.Remove(this);
 
     lastServerTime = serverTime;
   }
 
   [EntityBase.NetEvent('l')]
-  public void Place(float serverTime, int playerAID, int playerEID, int cabientID) {
-    // only recognize the latest
-    if (serverTime < lastServerTime) return;
-    var player = GameInitializer.Instance.Entity<PlayerEntity>(playerAID, playerEID);
-    if (player == null) return;
+  public void Place(float serverTime, int cabientID) {
     var cab = Cabient.cabients[cabientID];
+
+    // only recognize the latest
+    if (serverTime < lastServerTime){
+      // a late message, still place at station
+      rb.isKinematic = false;
+      rb.position = cab.placeTransform.position;
+      rb.rotation = Quaternion.identity;
+      rb.velocity = Vector3.zero;
+      rb.angularVelocity = Vector3.zero;
+
+      return;
+    }
+    
+    // pop any item on the cabient
+    var item = DoubleDictionary<Cabient, ItemEntity>.Get(cab);
+    if (item){
+      var itemrb = item.rb;
+      itemrb.isKinematic = false;
+      itemrb.velocity = Vector3.zero;
+      itemrb.angularVelocity = Vector3.zero;
+    }
+    DoubleDictionary<Cabient, ItemEntity>.Remove(cab);
 
     rb.isKinematic = true;
     rb.position = cab.placeTransform.position;
@@ -157,13 +137,29 @@ public class ItemEntity : UnitEntity, IInteractable {
     rb.velocity = Vector3.zero;
     rb.angularVelocity = Vector3.zero;
 
-    owner = null;
-    player.grab.held = null;
-
-    cabient = cab;
-    cabient.item = this;
+    DoubleDictionary<PlayerEntity, ItemEntity>.Remove(this);
+    DoubleDictionary<Cabient, ItemEntity>.Set(cab, this);
 
     lastServerTime = serverTime;
+  }
+
+  [EntityBase.NetEvent('s')]
+  public void Destroy(){
+    DestroyEntity();
+
+    if (isMine){
+      UnitEntityManager.Local.Deregister(this);
+      Destroy(gameObject);
+    } else {
+      gameObject.SetActive(false);
+    }
+  }
+
+  public override void DestroyEntity() {
+    base.DestroyEntity();
+
+    DoubleDictionary<PlayerEntity, ItemEntity>.Remove(this);
+    DoubleDictionary<Cabient, ItemEntity>.Remove(this);
   }
 
   [EntityBase.NetEvent('c')]

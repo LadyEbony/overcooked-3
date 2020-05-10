@@ -11,10 +11,8 @@ public class GameInitializer: MonoBehaviour{
   public Dictionary<int, UnitEntityManager> managers;
 
   public GameObject playerPrefab;
-  public GameObject aiPrefab;
-  public GameObject gunPrefab;
-  public GameObject bulletPrefab;
-  public GameObject grenadePrefab;
+  public GameObject platePrefab;
+  public GameObject foodPrefab;
 
   public T Entity<T>(int actor, int id) where T: UnitEntity{
     UnitEntityManager manager;
@@ -42,6 +40,9 @@ public class GameInitializer: MonoBehaviour{
   // Start is called before the first frame update
   IEnumerator Start() {
     while (!NetworkManager.expectedState) yield return null;
+
+    DoubleDictionary<PlayerEntity, ItemEntity>.Create();
+    DoubleDictionary<Cabient, ItemEntity>.Create();
 
     if (NetworkManager.inRoom){
       var players = NetworkManager.net.CurrentRoom.Players;
@@ -76,10 +77,7 @@ public class GameInitializer: MonoBehaviour{
   }
 
   public void ModifyServerManager(UnitEntityManager manager){
-    for(var i = 0; i < 1; i++){
-      var item = ItemEntity.CreateEntity();
-      manager.Register(item);
-    }
+  
   }
 
   public virtual void ModifyLocalManager(UnitEntityManager manager) {

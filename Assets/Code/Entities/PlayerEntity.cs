@@ -10,6 +10,8 @@ public class PlayerEntity : UnitEntity {
   public PlayerController controller;
   public GrabandDrop grab;
 
+  public ItemEntity held => DoubleDictionary<PlayerEntity, ItemEntity>.Get(this);
+
   public new static UnitEntity CreateEntity(){
     return CreateEntityHelper(GameInitializer.Instance.playerPrefab);
   }

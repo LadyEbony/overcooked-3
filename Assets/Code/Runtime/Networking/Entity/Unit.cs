@@ -35,7 +35,6 @@ public abstract class Unit : MonoBehaviour {
   /// </summary>
   public virtual void DestroyEntity() {}
 
-
   public void RaiseEvent(char c, bool includeLocal, params object[] parameters){
     UnitEntityManager.Local.RaiseEvent(this, c, includeLocal, parameters);
   }

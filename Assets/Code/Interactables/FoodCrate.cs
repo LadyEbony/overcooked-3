@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FoodCrate : MonoBehaviour, IInteractable {
+public class FoodCrate : MonoBehaviour, IInteractableBase {
 
   private new Renderer renderer;
 
+  public int foodID;
   public Material defaultMaterial;
   public Material selectedMaterial;
 
@@ -13,17 +14,24 @@ public class FoodCrate : MonoBehaviour, IInteractable {
     renderer = GetComponent<Renderer>();
   }
 
-  public bool IsInteractable(PlayerEntity player){
-    return !player.grab.held;
+  public int IsInteractable(PlayerEntity player){
+    return !player.grab.held ? 2 : int.MaxValue;
   }
 
   public void Activate(PlayerEntity player){
-    var item = ItemEntity.CreateEntity() as ItemEntity;
-    UnitEntityManager.Local.Register(item);
-    item.Activate(player);
-  }
 
-  public void ActivateAlt(PlayerEntity player) { }
+    if (foodID == -1){
+      var item = PlateEntity.CreateEntity() as PlateEntity;
+      UnitEntityManager.Local.Register(item);
+      item.Activate(player);
+    } else {
+      var item = FoodEntity.CreateEntity() as FoodEntity;
+      item.foodID = foodID;
+      UnitEntityManager.Local.Register(item);
+      item.Activate(player);
+    }
+
+  }
 
   public void OnSelect(PlayerEntity player) {
     renderer.material = selectedMaterial;
@@ -32,4 +40,5 @@ public class FoodCrate : MonoBehaviour, IInteractable {
   public void OnDeselect(PlayerEntity player) {
     renderer.material = defaultMaterial;
   }
+
 }
