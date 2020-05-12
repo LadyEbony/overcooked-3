@@ -226,7 +226,8 @@ GameObject:
   - component: {fileID: 2585455314422014891}
   - component: {fileID: 232776475643602759}
   - component: {fileID: -2514503629289340865}
-  m_Layer: 0
+  - component: {fileID: 111313850266238606}
+  m_Layer: 11
   m_Name: FoodFish
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -241,7 +242,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6882060191010242432}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.009, y: 0, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 976547344456830347}
@@ -302,6 +303,19 @@ MonoBehaviour:
   defaultMaterial: {fileID: 0}
   selectedMaterial: {fileID: 0}
   cut: 5
+--- !u!65 &111313850266238606
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6882060191010242432}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.2, y: 0.19, z: 0.63}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &517402885055437509
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -372,6 +386,11 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 784b30176c91c134db1cf02a48904cbb,
         type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 784b30176c91c134db1cf02a48904cbb,
+        type: 3}
+      propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -454,6 +473,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 7eb27ca029e73bf4199fdd84853d369e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7eb27ca029e73bf4199fdd84853d369e, type: 3}
 --- !u!4 &5601936773400320776 stripped
@@ -532,6 +556,11 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: d4abc2705d6e1784f88f31abf97ef5c1,
         type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: d4abc2705d6e1784f88f31abf97ef5c1,
+        type: 3}
+      propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -614,6 +643,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 2170d2617d7b7db478ca3896a81ad889,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2170d2617d7b7db478ca3896a81ad889, type: 3}
 --- !u!4 &1390778517209983972 stripped
@@ -692,6 +726,11 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 25d6f75620f10fb46bc47d8dc04dd882,
         type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 25d6f75620f10fb46bc47d8dc04dd882,
+        type: 3}
+      propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
