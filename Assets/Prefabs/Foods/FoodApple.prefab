@@ -115,7 +115,7 @@ GameObject:
   - component: {fileID: 6147655123494969177}
   m_Layer: 11
   m_Name: FoodApple
-  m_TagString: Untagged
+  m_TagString: Selectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -187,8 +187,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2192b8cf8629afb43a04834b21f7218b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultMaterial: {fileID: 0}
-  selectedMaterial: {fileID: 0}
+  defaultMaterial: {fileID: -3000846378788527790, guid: d606fde58782bc24cb3f3158bab064a4,
+    type: 3}
+  selectedMaterial: {fileID: 2100000, guid: 1f6c9e27bc8004222b8093d2c2e35f9f, type: 2}
   cut: 5
 --- !u!65 &6147655123494969177
 BoxCollider:

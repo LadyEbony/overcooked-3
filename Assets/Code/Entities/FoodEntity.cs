@@ -17,8 +17,18 @@ public class FoodEntity : ItemEntity {
     var obj = Instantiate(prefab, transform);
     description = obj.GetComponent<ItemDescription>();
 
-    renderer = obj.GetComponent<Renderer>();
-  }
+        //original:
+        //renderer = obj.GetComponent<Renderer>();
+
+        //Chong: find the # of children then set up a Renderer type array.
+        //After that, put all the renderers under the object into the array.
+        int children = obj.transform.childCount;
+        renderers = new Renderer[children];
+        for (int i = 0; i < children; i++)
+        {
+            renderers[i] = obj.transform.GetChild(i).transform.GetComponentInChildren<Renderer>();
+        }
+    }
   
   public override int IsInteractable(PlayerEntity player) {
     var held = player.held;

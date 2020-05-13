@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 596765714162510038}
   - component: {fileID: 3240587912394652315}
   - component: {fileID: 4372517256185814364}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: fish
-  m_TagString: Untagged
+  m_TagString: Selectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -60,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 7795464835576231955, guid: 72892433d5ad0724ebb3953839fd91e6, type: 3}
+  - {fileID: 7795464835576231955, guid: d4abc2705d6e1784f88f31abf97ef5c1, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -126,7 +126,7 @@ GameObject:
   - component: {fileID: 5607619010380909941}
   - component: {fileID: 6258016702937824286}
   - component: {fileID: 3315306285976888784}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: knife
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -229,7 +229,7 @@ GameObject:
   - component: {fileID: 111313850266238606}
   m_Layer: 11
   m_Name: FoodFish
-  m_TagString: Untagged
+  m_TagString: Selectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -300,8 +300,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2192b8cf8629afb43a04834b21f7218b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultMaterial: {fileID: 0}
-  selectedMaterial: {fileID: 0}
+  defaultMaterial: {fileID: 7795464835576231955, guid: 16fda9ef347d0084183e2018b3cd4788,
+    type: 3}
+  selectedMaterial: {fileID: 2100000, guid: 1f6c9e27bc8004222b8093d2c2e35f9f, type: 2}
   cut: 5
 --- !u!65 &111313850266238606
 BoxCollider:
@@ -391,7 +392,7 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 784b30176c91c134db1cf02a48904cbb,
         type: 3}
       propertyPath: m_Layer
-      value: 0
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 784b30176c91c134db1cf02a48904cbb, type: 3}
@@ -476,7 +477,7 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 7eb27ca029e73bf4199fdd84853d369e,
         type: 3}
       propertyPath: m_Layer
-      value: 0
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7eb27ca029e73bf4199fdd84853d369e, type: 3}
@@ -561,7 +562,7 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: d4abc2705d6e1784f88f31abf97ef5c1,
         type: 3}
       propertyPath: m_Layer
-      value: 0
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4abc2705d6e1784f88f31abf97ef5c1, type: 3}
@@ -646,7 +647,7 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 2170d2617d7b7db478ca3896a81ad889,
         type: 3}
       propertyPath: m_Layer
-      value: 0
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2170d2617d7b7db478ca3896a81ad889, type: 3}
@@ -731,7 +732,7 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 25d6f75620f10fb46bc47d8dc04dd882,
         type: 3}
       propertyPath: m_Layer
-      value: 0
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 25d6f75620f10fb46bc47d8dc04dd882, type: 3}

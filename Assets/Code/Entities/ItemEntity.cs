@@ -7,7 +7,7 @@ using TMPro;
 public abstract class ItemEntity : UnitEntity, IInteractableBase {
 
   protected Rigidbody rb;
-  protected new Renderer renderer;
+  //protected new Renderer renderer;
   protected TextMeshPro debug;
 
   public ItemDescription description;
@@ -16,6 +16,10 @@ public abstract class ItemEntity : UnitEntity, IInteractableBase {
   public Material defaultMaterial => description.defaultMaterial;
   public Material selectedMaterial => description.selectedMaterial;
   public PlayerEntity owner => DoubleDictionary<PlayerEntity, ItemEntity>.Get(this);
+
+  //Chong: I use "Render[]" instead of "Renderer" to solve indicating selection issue
+  protected Renderer[] renderers;
+
 
   public override void AwakeEntity() {
     base.AwakeEntity();
@@ -48,12 +52,20 @@ public abstract class ItemEntity : UnitEntity, IInteractableBase {
     }
   }
 
+  //Chong: set all the renderers under the object to selectedMaterial
   public void OnSelect(PlayerEntity player) {
-    renderer.material = selectedMaterial;
-  }
+    foreach(Renderer renderer in renderers)
+        {
+            renderer.material = selectedMaterial;
+        }
+    }
 
   public void OnDeselect(PlayerEntity player) {
-    renderer.material = defaultMaterial;
+        foreach (Renderer renderer in renderers)
+        {
+
+            renderer.material = defaultMaterial;
+        }
   }
 
   [EntityBase.NetEvent('p')]

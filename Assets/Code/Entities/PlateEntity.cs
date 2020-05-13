@@ -17,12 +17,18 @@ public class PlateEntity : ItemEntity {
 
     ingredients = new HashSet<int>();
   }
-
+     
   public override void StartEntity() {
     base.StartEntity();
 
     description = GetComponent<ItemDescription>();
-    renderer = GetComponent<Renderer>();
+
+    //original:
+    //render = GetComponent<Renderer>();
+
+    //Chong: I have adjust this part due to the indicating selection issue
+    renderers = new Renderer[1];
+    renderers[0]  = GetComponent<Renderer>();
   }
 
   [EntityBase.NetEvent('m')]
