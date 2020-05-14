@@ -12,7 +12,7 @@ public class ObjectMovement : MonoBehaviour
     //public GameObject hoot;
     public AudioSource source;
     public AudioClip horn;
-    public float waitTime = 60.0f;
+    public float waitTime;
 
 
     void Awake()
@@ -24,6 +24,7 @@ public class ObjectMovement : MonoBehaviour
     void Start()
     {
         transform.rotation = Quaternion.Euler(-90, 0, -126.3f);
+        waitTime = 15.0f;
     }
 
     // Update is called once per frame
@@ -42,7 +43,7 @@ public class ObjectMovement : MonoBehaviour
 
         transform.position = Vector3.MoveTowards(transform.position, wayPoints[curPosition].transform.position, Time.deltaTime * speed);
         //transform.rotation = transform.rotation * Quaternion.Euler(0,0,-0.12f);
-        transform.RotateAround(transform.position, new Vector3(0,1,0), -8.1f * Time.deltaTime);
+        transform.RotateAround(transform.position, new Vector3(0,1,0), -8.05f * Time.deltaTime);
 
         if(waitTime < 0.0f)
         {
