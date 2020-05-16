@@ -110,7 +110,7 @@ public class GrabandDrop : MonoBehaviour {
       // generic approach to deselect
       // extra steps cause Unity
       if (interactingBase != null && !interactingBase.Equals(null)) interactingBase.OnDeselect(player);
-      if (interactingAlt != null && !interactingAlt.Equals(null)) interactingAlt.OnDeselect(player);
+      if (interactingAlt != null && !interactingAlt.Equals(null)) interactingAlt.OnDeselectAlt(player);
 
       // search all colliders for an iinteractable interface
       GetInteractionBox(out var center, out var size);
@@ -131,15 +131,9 @@ public class GrabandDrop : MonoBehaviour {
           var basetemp = interact as IInteractableBase;
           if (basetemp != null){
             var pri = basetemp.IsInteractable(player);
-            float sqrdis;
-            if (pri > basepri) goto alt;  // higher priority. don't try
-            else if (pri == basepri){
-              // same priority, don't try if farther away
-              sqrdis  = SqrMagnitudeXZ(transform.position, hitCol.transform.position);
-              if (sqrdis >= basedis) goto alt;
-            } else {
-              sqrdis = float.MaxValue;
-            }
+            var sqrdis = SqrMagnitudeXZ(transform.position, hitCol.transform.position);
+            if (pri > basepri) goto alt;                            // higher priority. don't try
+            else if (pri == basepri && sqrdis >= basedis) goto alt; // same priority, check distance
 
             basedis = sqrdis;
             basepri = pri;
@@ -151,15 +145,9 @@ public class GrabandDrop : MonoBehaviour {
           var alttemp = interact as IInteractableAlt;
           if (alttemp != null){
             var pri = alttemp.IsInteractableAlt(player);
-            float sqrdis;
-            if (pri > altpri) goto done;  // higher priority. don't try
-            else if (pri == altpri){
-              // same priority, don't try if farther away
-              sqrdis  = SqrMagnitudeXZ(transform.position, hitCol.transform.position);
-              if (sqrdis >= altdis) goto done;
-            } else {
-              sqrdis = float.MaxValue;
-            }
+            var sqrdis = SqrMagnitudeXZ(transform.position, hitCol.transform.position);;
+            if (pri > altpri) goto done;                           // higher priority. don't try
+            else if (pri == altpri && sqrdis >= altdis) goto done; // same priority, check distance
 
             altdis = sqrdis;
             altpri = pri;
@@ -176,7 +164,7 @@ public class GrabandDrop : MonoBehaviour {
 
       // generic approach to select
       interactingBase?.OnSelect(player);
-      interactingAlt?.OnSelect(player);
+      interactingAlt?.OnSelectAlt(player);
     }
 
   // normalize Y. we only care about XZ

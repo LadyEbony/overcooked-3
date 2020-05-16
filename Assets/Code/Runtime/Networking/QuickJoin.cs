@@ -8,20 +8,19 @@ using ExitGames.Client.Photon.LoadBalancing;
 
 public class QuickJoin : MonoBehaviour {
   // Update is called once per frame
+  public string quickScene = "QUICKJOIN2";
   public bool allowQuickJoin = true;
 
 	void Update () {
     if (allowQuickJoin && Input.GetKeyDown(KeyCode.J)) {
       if (NetworkManager.inRoom) return;
 
-      var activeScene = "QUICKJOIN";
-
       var ro = new RoomOptions();
       ro.IsVisible = false;
       ro.IsOpen = true;
       ro.MaxPlayers = NetworkManager.instance.expectedMaxPlayers;
 
-      NetworkManager.net.OpJoinOrCreateRoomWithProperties(activeScene, ro, null);
+      NetworkManager.net.OpJoinOrCreateRoomWithProperties(quickScene, ro, null);
     }
   }
 

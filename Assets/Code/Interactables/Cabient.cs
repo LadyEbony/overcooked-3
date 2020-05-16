@@ -3,16 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Cabient : MonoBehaviour, IInteractableBase {
-  
-  private new Renderer renderer;
 
   [Header("IDs")]
   public int id;
   public static Dictionary<int, Cabient> cabients;
 
-  [Header("Renderers")]
-  public Material defaultMaterial;
-  public Material selectedMaterial;
+  [Header("Cabient Renderers")]
+  public GameObject selectionRenderer;
   public Transform placeTransform;
 
   public ItemEntity item => DoubleDictionary<Cabient, ItemEntity>.Get(this);
@@ -23,7 +20,6 @@ public class Cabient : MonoBehaviour, IInteractableBase {
 
   public virtual void Awake(){
     cabients.Add(id, this);
-    renderer = GetComponent<Renderer>();
   }
 
   public void Activate(PlayerEntity player) {
@@ -37,11 +33,11 @@ public class Cabient : MonoBehaviour, IInteractableBase {
   }
 
   public void OnSelect(PlayerEntity player) {
-    renderer.material = selectedMaterial;
+    selectionRenderer.SetActive(true);
   }
 
   public void OnDeselect(PlayerEntity player) {
-    renderer.material = defaultMaterial;
+    selectionRenderer.SetActive(false);
   }
 
   protected bool PlayerHoldingItemOnEmptyCabient(PlayerEntity player){

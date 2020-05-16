@@ -177,6 +177,14 @@ public abstract class ItemEntity : UnitEntity, IInteractableBase {
   [EntityBase.NetEvent('c')]
   public void Cut(){
     description.cut = Mathf.Max(0, description.cut - 1);
+
+    // get cabient that this item belongs to
+    var cab = DoubleDictionary<Cabient, ItemEntity>.Get(this);
+    if (cab){
+      // You have access to the cabient class
+      // Perhaps tell the cabient to play a cutting animation
+      Debug.LogWarning("Insert code to have cabient play knife cutting animation");
+    }
   }
 
 }

@@ -30,6 +30,8 @@ public abstract class UnitManager<T> : EntityBase, IMasterOwnsUnclaimed where T:
       var method = t.GetMethod("CreateEntity", BindingFlags.Public | BindingFlags.Static);
       typeConversion.Add(t, value);
       createConversion.Add(value, method);
+
+      Debug.LogFormat("{0}, {1}, {2}", t, method, value);
     }
 
   }

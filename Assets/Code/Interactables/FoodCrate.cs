@@ -4,15 +4,8 @@ using UnityEngine;
 
 public class FoodCrate : MonoBehaviour, IInteractableBase {
 
-  private new Renderer renderer;
-
   public int foodID;
-  public Material defaultMaterial;
-  public Material selectedMaterial;
-
-  void Awake(){
-    renderer = GetComponent<Renderer>();
-  }
+  public GameObject selectedRenderer;
 
   public int IsInteractable(PlayerEntity player){
     return !player.grab.held ? 2 : int.MaxValue;
@@ -34,11 +27,11 @@ public class FoodCrate : MonoBehaviour, IInteractableBase {
   }
 
   public void OnSelect(PlayerEntity player) {
-    renderer.material = selectedMaterial;
+    selectedRenderer.SetActive(true);
   }
 
   public void OnDeselect(PlayerEntity player) {
-    renderer.material = defaultMaterial;
+    selectedRenderer.SetActive(false);
   }
 
 }
