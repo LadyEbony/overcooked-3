@@ -7,6 +7,10 @@ public static class DoubleDictionary<Key, Value>{
   static Dictionary<Key, Value> keys;
   static Dictionary<Value, Key> values;
 
+  static DoubleDictionary(){
+    Create();
+  }
+
   public static void Create(){
     keys = new Dictionary<Key, Value>();
     values = new Dictionary<Value, Key>();

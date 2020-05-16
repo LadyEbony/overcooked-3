@@ -1,19 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class CuttingBoard : Cabient, IInteractableAlt {
 
   [Header("Cutting Board Renderers")]
   public GameObject selectionAltRenderer;
+  public TextMeshPro textMesh;
+
+  void Update(){
+    var f = food;
+    UpdateTextMesh(textMesh, f && f.cutCurrent >= 0 ? f.cutPercentage : -1);
+  }
 
   public int IsInteractableAlt(PlayerEntity player) {
-    return PlayerHoldingNothingOnFullCabient(player) ? 1 : int.MaxValue;
+    var f = food;
+    return PlayerHoldingNothingOnFullCabient(player) && f && f.cutCurrent > 0 ? 1 : int.MaxValue;
   }
 
   public void ActivateAlt(PlayerEntity player) {
-    if (PlayerHoldingNothingOnFullCabient(player) && item.description.cut > 0) {
-      item.RaiseEvent('c', true);
+    var f = food;
+    if (PlayerHoldingNothingOnFullCabient(player) && f && f.cutCurrent > 0) {
+      f.RaiseEvent('c', true);
     }
   }
 

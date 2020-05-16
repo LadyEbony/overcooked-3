@@ -34,10 +34,6 @@ public abstract class ItemEntity : UnitEntity, IInteractableBase {
       transform.position = owner.hand.position;
       transform.rotation = owner.hand.rotation;
     }
-
-    if (debug){
-      debug.text = description.cut >= 0 ? description.cut.ToString() : string.Empty;
-    }
   }
 
   public virtual int IsInteractable(PlayerEntity player) {
@@ -123,7 +119,7 @@ public abstract class ItemEntity : UnitEntity, IInteractableBase {
 
     // only recognize the latest
     if (serverTime < lastServerTime){
-      // a late message, still place at station
+      // a late message, still place near station
       rb.isKinematic = false;
       rb.position = cab.placeTransform.position;
       rb.rotation = Quaternion.identity;
@@ -172,19 +168,6 @@ public abstract class ItemEntity : UnitEntity, IInteractableBase {
 
     DoubleDictionary<PlayerEntity, ItemEntity>.Remove(this);
     DoubleDictionary<Cabient, ItemEntity>.Remove(this);
-  }
-
-  [EntityBase.NetEvent('c')]
-  public void Cut(){
-    description.cut = Mathf.Max(0, description.cut - 1);
-
-    // get cabient that this item belongs to
-    var cab = DoubleDictionary<Cabient, ItemEntity>.Get(this);
-    if (cab){
-      // You have access to the cabient class
-      // Perhaps tell the cabient to play a cutting animation
-      Debug.LogWarning("Insert code to have cabient play knife cutting animation");
-    }
   }
 
 }

@@ -6,6 +6,12 @@ public class FoodEntity : ItemEntity {
 
   public int foodID;
 
+  public int cutCurrent;
+  public int cookCurrent;
+
+  public int cutMax => description.cutAmount;
+  public int cookMax => description.cookAmount;
+
   public new static UnitEntity CreateEntity() {
     return CreateEntityHelper(GameInitializer.Instance.foodPrefab);
   }
@@ -16,6 +22,9 @@ public class FoodEntity : ItemEntity {
     var prefab = ItemContainer.Instance.foods[foodID];
     var obj = Instantiate(prefab, transform);
     description = obj.GetComponent<ItemDescription>();
+
+    cutCurrent = description.cutAmount;
+    cookCurrent = description.cookAmount;
 
         //original:
         //renderer = obj.GetComponent<Renderer>();
@@ -69,6 +78,35 @@ public class FoodEntity : ItemEntity {
     base.Deserialize(h);
 
     foodID = (int)(byte)h['f'];
+  }
+
+  public float cutPercentage => (float)(cutMax - cutCurrent) / cutMax;
+  public float cookPercentage => (float)(cookMax - cookCurrent) / cookMax;
+
+  [EntityBase.NetEvent('c')]
+  public void Cut(){
+    cutCurrent = Mathf.Max(0, cutCurrent - 1);
+
+    // get cabient that this item belongs to
+    var cab = DoubleDictionary<Cabient, ItemEntity>.Get(this);
+    if (cab){
+      // You have access to the cabient class
+      // Perhaps tell the cabient to play a cutting animation
+      Debug.LogWarning("Insert code to have cabient play knife cutting animation");
+    }
+  }
+
+  [EntityBase.NetEvent('k')]
+  public void Cook(){
+    cookCurrent = Mathf.Max(0, cookCurrent - 1);
+
+    // get cabient that this item belongs to
+    var cab = DoubleDictionary<Cabient, ItemEntity>.Get(this);
+    if (cab){
+      // You have access to the cabient class
+      // Perhaps tell the cabient to play a cutting animation
+      Debug.LogWarning("Insert code to have cooking animation IF ANYTHING");
+    }
   }
 
 }

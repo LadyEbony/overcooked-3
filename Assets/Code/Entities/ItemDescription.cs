@@ -9,7 +9,7 @@ public class ItemDescription : MonoBehaviour {
   public Material selectedMaterial;
 
   [Header("Description")]
-  public int cut = -1;
-
+  public int cutAmount = -1;
+  public int cookAmount = -1;
 
 }
