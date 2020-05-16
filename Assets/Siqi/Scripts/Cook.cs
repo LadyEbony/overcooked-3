@@ -13,6 +13,7 @@ public class Cook : MonoBehaviour
     public cabinetWork inCabinetWork; // The cook in the CabinetWork trigger
     public cabinetArrow inCabinetArrow; // The cook in the CabinetWork trigger
     public DeliveryTile inDeliveryTile; // The cook in the DeliveryTile trigger
+    public cabinetPot   inCabinetPot; // The cook in the CabinetWork trigger
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +22,7 @@ public class Cook : MonoBehaviour
         inCabinetSlice = null;
         inCabinetWork = null;
         inDeliveryTile = null;
+        inCabinetPot = null;
 
         food = null;
     }
@@ -96,6 +98,28 @@ public class Cook : MonoBehaviour
                 food.transform.position = parent.position;
                 food.transform.rotation = parent.rotation;
                 inCabinetSlice.food = null;
+            }
+            else if ((inCabinetPot != null) && (inCabinetPot.food == null)
+                      && (food != null) && (food.foodStatus == FOODStatus.SLICED))
+            // put food to inCabinetPot, then cook food
+            {
+                inCabinetPot.food = food;
+                Transform parent = inCabinetPot.transform.GetChild(1);
+                inCabinetPot.food.transform.parent = parent;
+                inCabinetPot.food.transform.position = parent.position; 
+                inCabinetPot.food.transform.rotation = parent.rotation;
+                inCabinetPot.Cooking();
+                food = null;
+            }
+            else if ((inCabinetPot != null) && (inCabinetPot.food != null) && (food == null))
+            // get cooked Food from inCabinetPot
+            {
+                food = inCabinetPot.food;
+                Transform parent = this.GetComponent<Transform>().GetChild(3);
+                food.transform.parent = parent;
+                food.transform.position = parent.position;
+                food.transform.rotation = parent.rotation;
+                inCabinetPot.food = null;
             }
             else if ((inCabinetArrow != null) && (inCabinetArrow.food == null) 
                     && (food != null) && (food.foodType == FOODType.DISH01))

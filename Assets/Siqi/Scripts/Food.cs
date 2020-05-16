@@ -6,7 +6,8 @@ public enum FOODType
 {
     FISH,
     APPLE,
-    DISH01
+    DISH01,
+    DISHFISH
 }
 public enum FOODStatus
 {
