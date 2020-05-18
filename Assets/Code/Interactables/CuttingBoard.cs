@@ -21,6 +21,7 @@ public class CuttingBoard : Cabient, IInteractableAlt {
 
   public void ActivateAlt(PlayerEntity player) {
     var f = food;
+    f.description.GetComponent<Food>().slicing();
     if (PlayerHoldingNothingOnFullCabient(player) && f && f.cutCurrent > 0) {
       f.RaiseEvent('c', true);
     }

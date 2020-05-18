@@ -26,6 +26,7 @@ public class Food: MonoBehaviour
     {
         foodStatus = FOODStatus.SLICING;
         GetComponent<Animator>().SetBool("isSlicing", true);
+        GetComponent<Animator>().SetTrigger("SlicingTrigger");
         foodStatus = FOODStatus.SLICED;
     }
 
