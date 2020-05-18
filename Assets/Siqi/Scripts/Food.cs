@@ -35,4 +35,10 @@ public class Food: MonoBehaviour
         GetComponent<Animator>().SetBool("isSlicing", false);
         foodStatus = FOODStatus.ORIGINAL;
     }
+    public void cooked()
+    {
+        foodStatus = FOODStatus.COOKED;
+        //GetComponent<Animator>().SetBool("isCooked", true);
+        GetComponent<Animator>().SetTrigger("CookedTrigger");
+    }
 }

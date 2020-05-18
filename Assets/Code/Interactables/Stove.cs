@@ -7,6 +7,8 @@ public class Stove : Cabient {
 
   public TextMeshPro textMesh;
 
+  public GameObject cooking;  // the cooking particle
+
   [Header("Cook timers")]
   public float cookTime = 1f;
   private float nextCookTime;
@@ -17,6 +19,7 @@ public class Stove : Cabient {
     UpdateTextMesh(textMesh, f && f.cookCurrent >= 0 ? f.cookPercentage : -1);
 
     if (f && f.isMine && f.cookCurrent >= 0){
+      cooking.SetActive(true);
       // scuffed way to check if new item
       if (f != cookingFood){
         cookingFood = f;
@@ -29,7 +32,8 @@ public class Stove : Cabient {
       }
 
     } else {
-      cookingFood = null;
+       cooking.SetActive(false);
+       cookingFood = null;
     }
   }
 
