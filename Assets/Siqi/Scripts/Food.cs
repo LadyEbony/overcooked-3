@@ -6,6 +6,7 @@ public enum FOODType
 {
     FISH,
     APPLE,
+    SAUSAGE,
     DISH01,
     DISHFISH
 }
