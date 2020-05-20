@@ -8,9 +8,11 @@ public class Timer : MonoBehaviour
     public Text text;
     public Font end;
     float timer;
+    public bool gameEnd;
 
     public AudioSource source;
     public AudioClip clock;
+    public AudioClip ding;
 
     void Awake()
     {
@@ -21,6 +23,7 @@ public class Timer : MonoBehaviour
     void Start()
     {
         timer = 65.0f;
+        gameEnd = false;
     }
 
     // Update is called once per frame
@@ -54,7 +57,16 @@ public class Timer : MonoBehaviour
         }
         else if (timer < 0)
         {
-            source.Stop();
+            //source.Stop();
+            if(gameEnd == false)
+            {
+                source.Stop();
+                if (!source.isPlaying)
+                {
+                    source.PlayOneShot(ding, 2.0f);
+                }
+                gameEnd = true;
+            }
 
             text.fontSize = 90;
             text.font = end;
