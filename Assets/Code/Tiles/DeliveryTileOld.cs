@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DeliveryTile : MonoBehaviour
+public class DeliveryTileOld : MonoBehaviour
 {
-
+/*
     public Food food;
 
     void Start()
@@ -29,4 +29,5 @@ public class DeliveryTile : MonoBehaviour
             cook.inDeliveryTile = null;
         }
     }
+    */
 }
