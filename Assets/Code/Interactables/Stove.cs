@@ -14,6 +14,9 @@ public class Stove : Cabient {
   private float nextCookTime;
   private FoodEntity cookingFood;
 
+  //public AudioSource source;
+  //public AudioClip boiling;
+
   private void Update() {
     var f = food;
     UpdateTextMesh(textMesh, f && f.cookCurrent >= 0 ? f.cookPercentage : -1);
@@ -29,6 +32,9 @@ public class Stove : Cabient {
       if (Time.time >= nextCookTime){
         f.RaiseEvent('k', true);
         nextCookTime = Time.time + cookTime;
+
+        //source.clip = boiling;
+        //source.Play();
       }
 
     } else {

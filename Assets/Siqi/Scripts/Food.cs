@@ -23,12 +23,43 @@ public class Food: MonoBehaviour
     public FOODType foodType;
     public FOODStatus foodStatus;
 
+    //public AudioSource[] sources;
+    public AudioSource source1;
+    //public AudioSource source2;
+    public AudioClip cutting;
+    //public GameObject stove;
+    //public AudioClip cooking;
+
+    private void Awake()
+    {
+        source1 = GetComponent<AudioSource>();
+        //stove = GameObject.Find("Stove");
+        //source2 = stove.GetComponent<AudioSource>();
+
+    }
+
+    private void Update()
+    {
+        if (GetComponent<Animator>().GetBool("finishedCutting"))
+        {
+            source1.Stop();
+        }
+        /*
+        if (GetComponent<Animator>().GetBool("finishedCooking"))
+        {
+            source2.Stop();
+        }*/
+    }
+
     public void slicing()
     {
         foodStatus = FOODStatus.SLICING;
         GetComponent<Animator>().SetBool("isSlicing", true);
         GetComponent<Animator>().SetTrigger("SlicingTrigger");
         foodStatus = FOODStatus.SLICED;
+
+        source1.clip = cutting;
+        source1.Play();
     }
 
     public void sliceInit()

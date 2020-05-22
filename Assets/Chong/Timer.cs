@@ -63,6 +63,7 @@ public class Timer : MonoBehaviour
                 source.Stop();
                 if (!source.isPlaying)
                 {
+                    source.volume = 0.8f;
                     source.PlayOneShot(ding, 2.0f);
                 }
                 gameEnd = true;
