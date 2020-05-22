@@ -126,6 +126,9 @@ public abstract class ItemEntity : UnitEntity, IInteractableBase {
       rb.velocity = Vector3.zero;
       rb.angularVelocity = Vector3.zero;
 
+      transform.position = cab.placeTransform.position;
+      transform.rotation = Quaternion.identity;
+
       return;
     }
     
@@ -144,6 +147,8 @@ public abstract class ItemEntity : UnitEntity, IInteractableBase {
     rb.rotation = Quaternion.identity;
     rb.velocity = Vector3.zero;
     rb.angularVelocity = Vector3.zero;
+    transform.position = cab.placeTransform.position;
+    transform.rotation = Quaternion.identity;
 
     DoubleDictionary<PlayerEntity, ItemEntity>.Remove(this);
     DoubleDictionary<Cabient, ItemEntity>.Set(cab, this);

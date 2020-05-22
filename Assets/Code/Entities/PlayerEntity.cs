@@ -5,6 +5,18 @@ using UnityEngine;
 
 public class PlayerEntity : UnitEntity {
 
+  public Color[] playerColors = new Color[]{
+    Color.black,
+    Color.blue,
+    Color.cyan,
+    Color.gray,
+    Color.green,
+    Color.magenta,
+    Color.red,
+    Color.white,
+    Color.yellow
+  };
+
   public Transform hand;
 
   public PlayerController controller;
@@ -31,6 +43,15 @@ public class PlayerEntity : UnitEntity {
     } else {
       controller.RemoteStart();
     }
+
+    var renderers = GetComponentsInChildren<Renderer>();
+    foreach(var r in renderers){
+      var materials = r.materials;
+      foreach(var m in materials){
+        m.color = playerColors[authorityID % playerColors.Length];
+      }
+    }
+
   }
 
   public override void UpdateEntity() {

@@ -39,4 +39,12 @@ public class ItemContainer : MonoBehaviour {
 
   }
 
+  public bool GetCompletedRecipe(PlateEntity plate){
+    foreach(var r in recipes){
+      var rhash = new HashSet<int>(r.ingredients);
+      if (rhash.SetEquals(plate.ingredients)) return true;
+    }
+    return false;
+  }
+
 }

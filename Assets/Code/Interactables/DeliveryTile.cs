@@ -2,38 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DeliveryTile : Cabient
-{
-    private bool FoodIsCurrentOrder(FoodEntity food)
-    {
-        // TODO: Implement Food Check 
-        return true;
-    }
+public class DeliveryTile : Cabient {
 
-    private void DestroyFoodAndUpdateScore(FoodEntity food)
-    {
-        food.Destroy();
-        // TODO: Implement score update
-    }
+  
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+  private bool FoodIsCurrentOrder(PlateEntity plate) {
+    // TODO: Implement Food Check 
+    var isrecipe = ItemContainer.Instance.GetCompletedRecipe(plate);
+    return isrecipe;
+  }
 
-    // Update is called once per frame
-    void Update()
-    {
-        var f = food;
+  private void DestroyFoodAndUpdateScore(PlateEntity plate) {
+    plate.Destroy();
+    // TODO: Implement score update
+  }
 
-        if (f && f.isMine)
-        {
-            if (FoodIsCurrentOrder(f))
-            {
-                DestroyFoodAndUpdateScore(f);
-            }
-        }
+  // Update is called once per frame
+  void Update() {
+    var p = plate;
+
+    // plate accepts
+    if (p && NetworkManager.isMaster) {
+      if (FoodIsCurrentOrder(p)) {
+        DestroyFoodAndUpdateScore(p);
+      }
     }
+  }
 
 }

@@ -14,6 +14,7 @@ public class Cabient : MonoBehaviour, IInteractableBase {
 
   public ItemEntity item => DoubleDictionary<Cabient, ItemEntity>.Get(this);
   public FoodEntity food => item as FoodEntity;
+  public PlateEntity plate => item as PlateEntity;
 
   static Cabient(){
     cabients = new Dictionary<int, Cabient>();

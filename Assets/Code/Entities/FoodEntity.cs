@@ -11,6 +11,7 @@ public class FoodEntity : ItemEntity {
 
   public int cutMax => description.cutAmount;
   public int cookMax => description.cookAmount;
+  public bool isProcessingDone => cutCurrent <= 0 && cookCurrent <= 0;
 
   public new static UnitEntity CreateEntity() {
     return CreateEntityHelper(GameInitializer.Instance.foodPrefab);
@@ -47,7 +48,7 @@ public class FoodEntity : ItemEntity {
     var plate = held as PlateEntity;
     if (plate != null) {
       // food has the most priority
-      var result = ItemContainer.Instance.GetRecipeResult(plate, this);
+      var result = isProcessingDone && ItemContainer.Instance.GetRecipeResult(plate, this);
       if (result) return 1;
     }
     return int.MaxValue;

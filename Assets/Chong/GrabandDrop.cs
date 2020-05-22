@@ -15,8 +15,9 @@ public class GrabandDrop : MonoBehaviour {
 
   [Header("Interaction")]
   public LayerMask interactionLayerMask;
-  public float interactionOffset = 1.5f;
-  public float interactionDistance = 1f;
+  public Vector3 interactionOffset1;
+  public Vector3 interactionOffset2;
+  public float interactionRadius = 1f;
 
   //Variables for sound effects
   [Header("Sound effects")]
@@ -114,8 +115,8 @@ public class GrabandDrop : MonoBehaviour {
       if (interactingAlt != null && !interactingAlt.Equals(null)) interactingAlt.OnDeselectAlt(player);
 
       // search all colliders for an iinteractable interface
-      GetInteractionBox(out var center, out var size);
-      var hitColliders = Physics.OverlapBox(center, size * 0.5f, Quaternion.identity, interactionLayerMask);
+      GetInteractionBox(out var point1, out var point2, out var radius);
+      var hitColliders = Physics.OverlapCapsule(point1, point2, radius, interactionLayerMask);
 
       IInteractableBase basehit = null;
       float basedis = float.MaxValue;
@@ -180,15 +181,18 @@ public class GrabandDrop : MonoBehaviour {
     return Vector3.SqrMagnitude(a - b);
   }
 
-  private void GetInteractionBox(out Vector3 center, out Vector3 size){
-    center = transform.position + transform.forward * interactionOffset;
-    size = Vector3.one * interactionDistance;
+  private void GetInteractionBox(out Vector3 point1, out Vector3 point2, out float size){
+    point1 = transform.TransformPoint(interactionOffset1);
+    point2 = transform.TransformPoint(interactionOffset2);
+    size = interactionRadius;
   }
 
   public void OnDrawGizmosSelected() {
-    GetInteractionBox(out var center, out var size);
+    GetInteractionBox(out var point1, out var point2, out var radius);
     Gizmos.color = Color.blue;
-    Gizmos.DrawWireCube(center, size);
+    Gizmos.DrawWireSphere(point1, radius);
+    Gizmos.DrawWireSphere(point2, radius);
+    Gizmos.DrawWireSphere((point1 + point2) / 2f, radius);
   }
 }
 

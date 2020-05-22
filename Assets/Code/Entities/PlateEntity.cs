@@ -28,7 +28,7 @@ public class PlateEntity : ItemEntity {
 
     //Chong: I have adjust this part due to the indicating selection issue
     renderers = new Renderer[1];
-    renderers[0]  = GetComponent<Renderer>();
+    renderers[0]  = GetComponentInChildren<Renderer>();
   }
 
   [EntityBase.NetEvent('m')]
@@ -39,9 +39,9 @@ public class PlateEntity : ItemEntity {
       Destroy(copy.GetComponent<ItemDescription>());
 
       var c = ingredients.Count;
-      copy.transform.localScale *= 0.5f;
+      copy.transform.localScale *= 0.75f;
       copy.transform.parent = transform;
-      copy.transform.localPosition = new Vector3(Mathf.Cos(c * Mathf.PI * 0.5f) * 0.5f, 0f, Mathf.Sin(c * Mathf.PI * 0.5f) * 0.5f);
+      copy.transform.localPosition = new Vector3(Mathf.Cos(c * Mathf.PI * 0.5f) * 0.125f, 0.1f, Mathf.Sin(c * Mathf.PI * 0.5f) * 0.125f);
     }
   }
 
