@@ -10,6 +10,7 @@ public class Timer : MonoBehaviour
     float timer;
     public bool gameEnd;
 
+    [Header("Sound effects")]
     public AudioSource source;
     public AudioClip clock;
     public AudioClip ding;

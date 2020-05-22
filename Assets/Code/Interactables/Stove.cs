@@ -14,8 +14,9 @@ public class Stove : Cabient {
   private float nextCookTime;
   private FoodEntity cookingFood;
 
-  //public AudioSource source;
-  //public AudioClip boiling;
+  [Header("Sound effects")]
+  public AudioSource source;
+  public AudioClip boiling;
 
   private void Update() {
     var f = food;
@@ -23,6 +24,12 @@ public class Stove : Cabient {
 
     if (f && f.isMine && f.cookCurrent >= 0){
       cooking.SetActive(true);
+      if (!source.isPlaying)
+      {
+        source.clip = boiling;
+        source.Play();
+      }
+
       // scuffed way to check if new item
       if (f != cookingFood){
         cookingFood = f;
@@ -32,12 +39,10 @@ public class Stove : Cabient {
       if (Time.time >= nextCookTime){
         f.RaiseEvent('k', true);
         nextCookTime = Time.time + cookTime;
-
-        //source.clip = boiling;
-        //source.Play();
       }
 
     } else {
+       source.Stop();
        cooking.SetActive(false);
        cookingFood = null;
     }

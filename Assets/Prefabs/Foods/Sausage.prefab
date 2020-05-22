@@ -29,7 +29,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 13492152562647040}
-  m_LocalRotation: {x: -0.033617493, y: 0.70630723, z: 0.70630723, w: 0.033617493}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -61,7 +61,7 @@ Transform:
   - {fileID: 567911475787335103}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: 174.55}
+  m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: 0}
 --- !u!95 &3037963319428102164
 Animator:
   serializedVersion: 3
@@ -96,9 +96,7 @@ MonoBehaviour:
   foodType: 2
   foodStatus: 0
   source1: {fileID: 0}
-  source2: {fileID: 0}
   cutting: {fileID: 8300000, guid: 59557e59e4faa40468c5f3e1caf84e25, type: 3}
-  stove: {fileID: 0}
 --- !u!114 &913851128146653200
 MonoBehaviour:
   m_ObjectHideFlags: 0

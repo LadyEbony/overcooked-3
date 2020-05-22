@@ -9,7 +9,7 @@ public class ObjectMovement : MonoBehaviour
     public float speed;
     float WPradius = 1;
 
-    //public GameObject hoot;
+    [Header("Sound effects")]
     public AudioSource source;
     public AudioClip horn;
     public AudioClip truck;

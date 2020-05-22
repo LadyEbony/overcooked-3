@@ -19,6 +19,7 @@ public class GrabandDrop : MonoBehaviour {
   public float interactionDistance = 1f;
 
   //Variables for sound effects
+  [Header("Sound effects")]
   public AudioSource source;
   public AudioClip pickUp;
   public AudioClip drop;
