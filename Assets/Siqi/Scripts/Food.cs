@@ -53,6 +53,17 @@ public class Food: MonoBehaviour
 
     public void slicing()
     {
+        if(!(foodStatus == FOODStatus.SLICED))
+        {
+            foodStatus = FOODStatus.SLICING;
+            GetComponent<Animator>().SetBool("isSlicing", true);
+            GetComponent<Animator>().SetTrigger("SlicingTrigger");
+            foodStatus = FOODStatus.SLICED;
+
+            source1.clip = cutting;
+            source1.Play();
+        }
+        /*
         foodStatus = FOODStatus.SLICING;
         GetComponent<Animator>().SetBool("isSlicing", true);
         GetComponent<Animator>().SetTrigger("SlicingTrigger");
@@ -60,6 +71,7 @@ public class Food: MonoBehaviour
 
         source1.clip = cutting;
         source1.Play();
+        */
     }
 
     public void sliceInit()
@@ -69,8 +81,16 @@ public class Food: MonoBehaviour
     }
     public void cooked()
     {
+        //if (!(foodStatus == FOODStatus.COOKED))
+        //{
+            foodStatus = FOODStatus.COOKED;
+            //GetComponent<Animator>().SetBool("isCooked", true);
+            GetComponent<Animator>().SetTrigger("CookedTrigger");
+        //}
+        /*
         foodStatus = FOODStatus.COOKED;
         //GetComponent<Animator>().SetBool("isCooked", true);
         GetComponent<Animator>().SetTrigger("CookedTrigger");
+        */
     }
 }

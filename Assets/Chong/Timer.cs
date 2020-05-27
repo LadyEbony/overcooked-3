@@ -10,6 +10,8 @@ public class Timer : MonoBehaviour
     float timer;
     public bool gameEnd;
 
+    public PlayerController MC;
+
     [Header("Sound effects")]
     public AudioSource source;
     public AudioClip clock;
@@ -74,6 +76,7 @@ public class Timer : MonoBehaviour
             text.font = end;
             text.color = Color.white;
             text.text = "End";
+
         }
     }
 }

@@ -80,8 +80,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2192b8cf8629afb43a04834b21f7218b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultMaterial: {fileID: 2100000, guid: 7962af095a8788d4dbd5c026c3edefca, type: 2}
-  selectedMaterial: {fileID: 2100000, guid: fcf418158d6335043a362ff3723da53d, type: 2}
+  defaultMaterial: {fileID: 2100000, guid: e3eaaad631569f54888875f8a3d96d9a, type: 2}
+  selectedMaterial: {fileID: 2100000, guid: 1f6c9e27bc8004222b8093d2c2e35f9f, type: 2}
   cutAmount: -1
   cookAmount: -1
 --- !u!1 &7863873830109960238
