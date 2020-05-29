@@ -37,7 +37,7 @@ public class PlateEntity : ItemEntity {
       var copy = Instantiate(ItemContainer.Instance.foods[foodID]);
       Destroy(copy.GetComponent<Collider>());
       Destroy(copy.GetComponent<ItemDescription>());
-
+      copy.GetComponent<Food>().cooked();
       var c = ingredients.Count;
       copy.transform.localScale *= 0.75f;
       copy.transform.parent = transform;
