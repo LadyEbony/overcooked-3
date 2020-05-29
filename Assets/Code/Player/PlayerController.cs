@@ -33,9 +33,13 @@ public class PlayerController : MonoBehaviour {
 
   public void RemoteStart(){
     gameObject.layer = LayerMask.NameToLayer("RemotePlayer");
-    transform.position = nextPosition;
-    rb.position = nextPosition;
+    SetPosition(nextPosition);
     rb.isKinematic = true;
+  }
+
+  public void SetPosition(Vector3 position){
+    transform.position = position;
+    rb.position = position;
   }
 
   public void Update(){

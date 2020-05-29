@@ -14,6 +14,8 @@ public class GameInitializer: MonoBehaviour{
   public GameObject platePrefab;
   public GameObject foodPrefab;
 
+  public Transform[] spawnPoints;
+
   public T Entity<T>(int actor, int id) where T: UnitEntity{
     UnitEntityManager manager;
     if (managers.TryGetValue(actor, out manager)){
@@ -83,7 +85,8 @@ public class GameInitializer: MonoBehaviour{
   public virtual void ModifyLocalManager(UnitEntityManager manager) {
 		UnitEntityManager.Local = manager;
 
-    var player = PlayerEntity.CreateEntity();
+    var player = PlayerEntity.CreateEntity() as PlayerEntity;
+    player.controller.SetPosition(spawnPoints[manager.authorityID % spawnPoints.Length].position);
     manager.Register(player);
 	}
 
