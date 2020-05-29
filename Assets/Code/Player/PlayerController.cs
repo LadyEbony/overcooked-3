@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour {
     gameObject.layer = LayerMask.NameToLayer("RemotePlayer");
     transform.position = nextPosition;
     rb.position = nextPosition;
+    rb.isKinematic = true;
   }
 
   public void Update(){
@@ -98,12 +99,9 @@ public class PlayerController : MonoBehaviour {
     }
 
   public void RemoteUpdate(){
-    // lerp to next position
     var lp = (Time.time - baseTime) / nextTime;
     var pos = Vector3.Lerp(basePosition, nextPosition, lp);
-
-    rb.velocity = (pos - rb.position) / Time.fixedDeltaTime;
-
+    rb.MovePosition(pos);
     transform.rotation = nextRotation;
   }
 

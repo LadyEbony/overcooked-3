@@ -14,6 +14,9 @@ public abstract class UnitManager<T> : EntityBase, IMasterOwnsUnclaimed where T:
   public Dictionary<int, T> entities;
   public List<Hashtable> functions;
 
+  public float networkTimer = 0.1f;
+  public float nextTimer;
+
   public static Dictionary<System.Type, int> typeConversion;
   public static Dictionary<int, MethodInfo> createConversion;
 
@@ -51,9 +54,11 @@ public abstract class UnitManager<T> : EntityBase, IMasterOwnsUnclaimed where T:
       e.UpdateEntity();
     }
 
-    if (NetworkManager.inRoom && isMine){
+    if (NetworkManager.inRoom && isMine && Time.time >= nextTimer){
       UpdateNow();
       SendFunctions();
+
+      nextTimer = Time.time + networkTimer;
     }
   }
 

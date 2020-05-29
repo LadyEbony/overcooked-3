@@ -7,10 +7,6 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public abstract class UnitEntity : Unit {
 
-  [Header("Update Timers")]
-  public float updateTimer = 0.1f;
-  private float _nextUpdatetime;
-
   // Add this to all EntityUnits
   public static UnitEntity CreateEntity(){
     throw new System.Exception("Should never be called. This is just an example function.");
@@ -39,15 +35,5 @@ public abstract class UnitEntity : Unit {
   /// </summary>
   /// <param name="h"></param>
   public virtual void Deserialize(Hashtable h) {}
-
-  public virtual bool UpdateReady {
-    get{
-      if (Time.time >= _nextUpdatetime){
-        _nextUpdatetime = Time.time + updateTimer;
-        return true;
-      }
-      return false;
-    }
-  }
 
 }

@@ -60,7 +60,11 @@ public class PlayerEntity : UnitEntity {
     if (isMine) {
       controller.LocalUpdate();
       grab.LocalUpdate();
-    } else {
+    }
+  }
+
+  private void FixedUpdate() {
+    if (!isMine){
       controller.RemoteUpdate();
     }
   }
@@ -79,7 +83,7 @@ public class PlayerEntity : UnitEntity {
     controller.basePosition = transform.position;
     controller.nextPosition = pos;
     controller.baseTime = Time.time;
-    controller.nextTime = updateTimer * 1.25f;
+    controller.nextTime = 0.1f * 1.25f;
 
     var rot = (Quaternion)h['r'];
     controller.nextRotation = rot;

@@ -72,36 +72,33 @@ public class GrabandDrop : MonoBehaviour {
   public void LocalUpdate(){
     IndicateSelections();
     OnInteracting();
-    OnItemDrop();
+    //OnItemDrop();
   }
 
   void OnInteracting(){
     // allows you to make any script 'interactable'
-    if (interactingBase != null && Input.GetKeyDown(KeyCode.E)){
-      source.PlayOneShot(pickUp, 2.0f);
-      interactingBase.Activate(player);
+    if (Input.GetKeyDown(KeyCode.E)){
+      if (interactingBase != null){
+        source.PlayOneShot(pickUp, 2.0f);
+        interactingBase.Activate(player);
+      } else if (holding) {
+        // Jose: moved drop to E if nothing is being interacted with
+        source.PlayOneShot(drop, 1f);
+        held.RaiseEvent('d', true, NetworkManager.ServerTimeFloat);
+      }
     } 
 
-    if (interactingAlt != null && Input.GetKeyDown(KeyCode.F)){
-      interactingAlt.ActivateAlt(player);
+    if (Input.GetKeyDown(KeyCode.F)){
+      if (interactingAlt != null){
+        interactingAlt.ActivateAlt(player);
+      } else if (holding) {
+        // Jose: moved throw to F if nothing is being interacted with
+        source.PlayOneShot(throwItem, 2.0f);
+        held.RaiseEvent('t', true, NetworkManager.ServerTimeFloat);
+      }
+      
     } 
   }
-
-    //###########################################################################
-    void OnItemDrop()
-    {
-        if (Input.GetKey(KeyCode.Q) && holding)
-        {
-            source.PlayOneShot(drop, 1f);
-            held.RaiseEvent('d', true, NetworkManager.ServerTimeFloat);
-        }
-
-        if (Input.GetKey(KeyCode.R) && holding){
-            source.PlayOneShot(throwItem, 2.0f);
-            held.RaiseEvent('t', true, NetworkManager.ServerTimeFloat);
-        }
-
-    }
  
     //###################################################################
     // Jose:

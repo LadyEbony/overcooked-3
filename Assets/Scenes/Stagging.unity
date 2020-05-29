@@ -8311,7 +8311,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 0bdf1089496da4f74be38af9b353d33f, type: 3}
@@ -13558,6 +13558,7 @@ MonoBehaviour:
   text: {fileID: 2858225136475408364}
   end: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
   gameEnd: 0
+  MC: {fileID: 0}
   source: {fileID: 0}
   clock: {fileID: 8300000, guid: 39e287b7a1e6f4ef79cc39e501621de5, type: 3}
   ding: {fileID: 8300000, guid: fe9ec31f65de649ce8a302444e711b34, type: 3}

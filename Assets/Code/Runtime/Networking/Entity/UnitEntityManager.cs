@@ -16,9 +16,7 @@ public class UnitEntityManager : UnitManager<UnitEntity> {
       var temp = new Hashtable();
       // we only send the full entity data when their auto timers are triggered
       // otherwise send empty
-      if (e.UpdateReady){
-        e.Serialize(temp);
-      }
+      e.Serialize(temp);
       h.Add(e.entityID, temp);
     }
   }
