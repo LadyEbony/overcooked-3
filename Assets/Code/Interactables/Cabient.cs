@@ -62,20 +62,4 @@ public class Cabient : MonoBehaviour, IInteractableBase {
     return !held && item;
   }
 
-  protected void UpdateTextMesh(TMPro.TextMeshPro textMesh, float value){
-    if (value >= 0){
-      textMesh.text = string.Format("{0}%", (int)(value * 100));
-
-      if (value < 0.5f){
-        textMesh.color = Color.red;
-      } else if (value < 1.0f){
-        textMesh.color = Color.yellow;
-      } else {
-        textMesh.color = Color.green;
-      }
-    } else {
-      textMesh.text = string.Empty;
-    }  
-  }
-
 }

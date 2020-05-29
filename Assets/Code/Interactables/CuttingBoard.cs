@@ -7,11 +7,19 @@ public class CuttingBoard : Cabient, IInteractableAlt {
 
   [Header("Cutting Board Renderers")]
   public GameObject selectionAltRenderer;
-  public TextMeshPro textMesh;
+  public GameObject progressBarMain;
+  public SpriteRenderer progressBarRenderer;
 
   void Update(){
     var f = food;
-    UpdateTextMesh(textMesh, f && f.cutCurrent >= 0 ? f.cutPercentage : -1);
+    if (f == null){
+      progressBarMain.SetActive(false);
+    } else {
+      progressBarMain.SetActive(true);
+      progressBarRenderer.transform.localScale = new Vector3(f.cutPercentage, 1f, 1f);
+      progressBarRenderer.color = f.cutCurrent == 0 ? Color.green : Color.yellow;
+    }
+    
   }
 
   public int IsInteractableAlt(PlayerEntity player) {

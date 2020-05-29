@@ -64,7 +64,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entityID: 0
   authorityID: 0
-  updateTimer: 0.1
   description: {fileID: 0}
   lastServerTime: -3.4028235e+38
   ready: 0
@@ -95,7 +94,7 @@ GameObject:
   - component: {fileID: 7923649056043564970}
   - component: {fileID: 3690356068660189610}
   - component: {fileID: 1854371738594642295}
-  - component: {fileID: 9078304279496799352}
+  - component: {fileID: 7712012259436316379}
   m_Layer: 11
   m_Name: GameObject
   m_TagString: Untagged
@@ -164,8 +163,8 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7863873830109960238}
   m_Mesh: {fileID: 6695555308106111166, guid: 7b29801d961346245bd79dce9581618f, type: 3}
---- !u!64 &9078304279496799352
-MeshCollider:
+--- !u!65 &7712012259436316379
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -174,7 +173,6 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 6695555308106111166, guid: 7b29801d961346245bd79dce9581618f, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.0047656093, y: 0.0047656116, z: 0.0004789139}
+  m_Center: {x: 0.000000007799827, y: -0.0000000072177517, z: 0.00005279438}

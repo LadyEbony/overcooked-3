@@ -11,7 +11,7 @@ public class FoodEntity : ItemEntity {
 
   public int cutMax => description.cutAmount;
   public int cookMax => description.cookAmount;
-  public bool isProcessingDone => cutCurrent <= 0 && cookCurrent <= 0;
+  public bool isProcessingDone => cutCurrent <= 0 && cookCurrent <= 0 && cookCurrent != -2;
 
   public new static UnitEntity CreateEntity() {
     return CreateEntityHelper(GameInitializer.Instance.foodPrefab);
@@ -100,7 +100,8 @@ public class FoodEntity : ItemEntity {
 
   [EntityBase.NetEvent('k')]
   public void Cook(){
-    cookCurrent = Mathf.Max(0, cookCurrent - 1);
+    if (cookCurrent == 0) cookCurrent = -2;
+    else if (cookCurrent > 0) cookCurrent -= 1;
 
     // get cabient that this item belongs to
     var cab = DoubleDictionary<Cabient, ItemEntity>.Get(this);
