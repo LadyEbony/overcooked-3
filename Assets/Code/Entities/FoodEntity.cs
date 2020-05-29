@@ -100,7 +100,11 @@ public class FoodEntity : ItemEntity {
 
   [EntityBase.NetEvent('k')]
   public void Cook(){
-    if (cookCurrent == 0) cookCurrent = -2;
+    if (cookCurrent == 0)
+    {
+        cookCurrent = -2;
+        this.description.GetComponent<Food>().burnt();  //Tsq
+    }
     else if (cookCurrent > 0) cookCurrent -= 1;
 
     // get cabient that this item belongs to

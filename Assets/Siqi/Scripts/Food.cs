@@ -16,7 +16,8 @@ public enum FOODStatus
     SLICING,
     SLICED,
     COOKING,
-    COOKED
+    COOKED,
+    BURNT
 }
 public class Food: MonoBehaviour
 {
@@ -58,7 +59,7 @@ public class Food: MonoBehaviour
             foodStatus = FOODStatus.SLICING;
             GetComponent<Animator>().SetBool("isSlicing", true);
             GetComponent<Animator>().SetTrigger("SlicingTrigger");
-            foodStatus = FOODStatus.SLICED;
+            //foodStatus = FOODStatus.SLICED;
 
             source1.clip = cutting;
             source1.Play();
@@ -92,5 +93,12 @@ public class Food: MonoBehaviour
         //GetComponent<Animator>().SetBool("isCooked", true);
         GetComponent<Animator>().SetTrigger("CookedTrigger");
         */
+    }
+
+    public void burnt()
+    {
+        foodStatus = FOODStatus.BURNT;
+        GetComponent<Animator>().SetBool("isBurnt", true);
+
     }
 }
