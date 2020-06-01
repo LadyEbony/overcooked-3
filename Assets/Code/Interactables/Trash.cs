@@ -4,10 +4,21 @@ using UnityEngine;
 
 public class Trash : Cabient {
 
-  void Update() {
+    public AudioSource source;
+    public AudioClip trash;
+
+    /*
+    private void Awake()
+    {
+        source = GetComponent<AudioSource>();
+    }*/
+
+    void Update() {
     // plate accepts
     if (item && item.isMine) {
       item.RaiseEvent('s', true);
+            //source.clip = trash;
+            source.PlayOneShot(trash);
     }
   }
 

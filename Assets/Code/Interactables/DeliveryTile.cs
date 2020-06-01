@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class DeliveryTile : Cabient {
 
-  
+    public AudioSource source;
+    public AudioClip success;
 
-  private bool FoodIsCurrentOrder(PlateEntity plate) {
+
+    private bool FoodIsCurrentOrder(PlateEntity plate) {
     // TODO: Implement Food Check 
     var isrecipe = ItemContainer.Instance.GetCompletedRecipe(plate);
     return isrecipe;
@@ -25,6 +27,7 @@ public class DeliveryTile : Cabient {
     if (p && NetworkManager.isMaster) {
       if (FoodIsCurrentOrder(p)) {
         DestroyFoodAndUpdateScore(p);
+        source.PlayOneShot(success);
       }
     }
   }

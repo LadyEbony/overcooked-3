@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour {
             if (!source.isPlaying)
             {
                 source.clip = footsteps;
-                source.volume = Random.Range(0.8f, 0.1f);
+                source.volume = Random.Range(0.7f, 0.8f);
                 source.pitch = Random.Range(0.4f, 0.5f);
                 source.Play();
             }

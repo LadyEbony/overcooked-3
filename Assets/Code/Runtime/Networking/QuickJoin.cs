@@ -10,7 +10,15 @@ public class QuickJoin : MonoBehaviour {
   // Update is called once per frame
   public bool allowQuickJoin = true;
 
-	void Update () {
+    public AudioSource source;
+    public AudioClip joined;
+
+    private void Awake()
+    {
+        source = GetComponent<AudioSource>();
+    }
+
+    void Update () {
     if (allowQuickJoin && Input.GetKeyDown(KeyCode.J)) {
       if (NetworkManager.inRoom) return;
 
@@ -22,6 +30,8 @@ public class QuickJoin : MonoBehaviour {
       var quickScene = SceneManager.GetActiveScene().name;
 
       NetworkManager.net.OpJoinOrCreateRoomWithProperties(quickScene, ro, null);
+
+      source.PlayOneShot(joined);
     }
   }
 
