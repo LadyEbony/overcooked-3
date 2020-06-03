@@ -6,12 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MenuTest.unity
-    guid: 507020b1278f1459bafa3bf1e3d48e41
-  - enabled: 0
-    path: Assets/Scenes/SampleScene.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
+    path: Assets/Scenes/Game/OvercookedLevel1.unity
+    guid: 84f995b8f882c3541aa4b0c3fb5f31b4
   - enabled: 1
-    path: Assets/Scenes/Stagging.unity
-    guid: a9474b7f68389fc4d9f59cb8f20090fc
+    path: Assets/Scenes/Game/TimeUp.unity
+    guid: a0ac46010e73743319e4ba3ad4651ba8
+  - enabled: 1
+    path: Assets/Scenes/Game/Greeting.unity
+    guid: a027f6d6af32e4d64883056a85704a55
+  - enabled: 1
+    path: Assets/Scenes/Game/Ending.unity
+    guid: 61072c787fd6341bd86876679d8a7f3a
   m_configObjects: {}

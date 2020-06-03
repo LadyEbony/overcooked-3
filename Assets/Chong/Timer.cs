@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Timer : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class Timer : MonoBehaviour
     public AudioClip clock;
     public AudioClip ding;
 
+    public int score;
+
     void Awake()
     {
         source = GetComponent<AudioSource>();
@@ -25,8 +28,10 @@ public class Timer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        timer = 65.0f;
+        timer = 10.0f;
         gameEnd = false;
+
+        score = Random.Range(99, 101);
     }
 
     // Update is called once per frame
@@ -60,8 +65,7 @@ public class Timer : MonoBehaviour
         }
         else if (timer < 0)
         {
-            //source.Stop();
-            if(gameEnd == false)
+            if (gameEnd == false)
             {
                 source.Stop();
                 if (!source.isPlaying)
@@ -77,6 +81,23 @@ public class Timer : MonoBehaviour
             text.color = Color.white;
             text.text = "End";
 
+            if (score >= 100)
+            {
+                Invoke("Ending", 2f);
+            }
+            else
+            {
+                Invoke("TimeUp", 2f);
+            }
         }
+    }
+
+    private void TimeUp()
+    {
+        SceneManager.LoadScene("TimeUp");
+    }
+    private void Ending()
+    {
+        SceneManager.LoadScene("Ending");
     }
 }
