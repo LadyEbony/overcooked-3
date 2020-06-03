@@ -11,14 +11,14 @@ public class Timer : MonoBehaviour
     float timer;
     public bool gameEnd;
 
-    public PlayerController MC;
+    //public PlayerController MC;
 
     [Header("Sound effects")]
     public AudioSource source;
     public AudioClip clock;
     public AudioClip ding;
 
-    public int score;
+    public static int score;
 
     void Awake()
     {
@@ -28,7 +28,7 @@ public class Timer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        timer = 10.0f;
+        timer = 30.0f;
         gameEnd = false;
 
         score = Random.Range(99, 101);
@@ -80,7 +80,7 @@ public class Timer : MonoBehaviour
             text.font = end;
             text.color = Color.white;
             text.text = "End";
-
+            
             if (score >= 100)
             {
                 Invoke("Ending", 2f);

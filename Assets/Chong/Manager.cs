@@ -19,11 +19,16 @@ public class Manager : MonoBehaviour
 
     public void PlayGame()
     {
-        SceneManager.LoadScene("OvercookedLevel1");
+        Invoke("Level1", 1f);
     }
 
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    public void Level1()
+    {
+        SceneManager.LoadScene("Instruction4Level1");
     }
 }
