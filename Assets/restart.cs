@@ -1,28 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class ProgressBar : MonoBehaviour
+public class restart : MonoBehaviour
 {
-    public Slider Pbar;
-    float timer;
-
+    public float timer;
     // Start is called before the first frame update
     void Start()
     {
-        Pbar.maxValue = 10.0f;
+        timer = 40.0f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Pbar.value += Time.deltaTime;
+        timer -= Time.deltaTime;
 
-        if (Pbar.value == Pbar.maxValue)
+        if (timer < 0)
         {
-            SceneManager.LoadScene("OvercookedLevel1");
+            SceneManager.LoadScene("Greeting");
         }
     }
 }
