@@ -144,6 +144,21 @@ public class NetworkManager : MonoBehaviour {
     }
    }
 
+   public static bool expectedPlayers{
+    get {
+      if (inRoom){
+        return net.CurrentRoom.PlayerCount == instance.expectedMaxPlayers;
+      }
+      return false;
+    }
+   }
+
+   public static bool gameReady{
+    get {
+    return expectedState && expectedPlayers;
+    }
+   }
+
 	/// <summary>
 	/// Enqueue a network update to be sent. Network events are processed both on Update and LateUpdate timings.
 	/// </summary>

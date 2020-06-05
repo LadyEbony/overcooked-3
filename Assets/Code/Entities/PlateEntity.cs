@@ -34,7 +34,7 @@ public class PlateEntity : ItemEntity {
   [EntityBase.NetEvent('m')]
   public void Combine(int foodID){
     if(ingredients.Add(foodID)){
-      var copy = Instantiate(ItemContainer.Instance.foods[foodID]);
+      var copy = Instantiate(ItemContainer.Instance.ingredients[foodID].prefab);
       Destroy(copy.GetComponent<Collider>());
       Destroy(copy.GetComponent<ItemDescription>());
       copy.GetComponent<Food>().cooked();

@@ -28,9 +28,10 @@ public class Timer : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
-    {
-        timer = 30.0f;
+    IEnumerator Start() {
+    while (!NetworkManager.gameReady) yield return null;
+
+        timer = 60.0f;
         isActive = true;
         gameEnd = false;
 
@@ -40,6 +41,8 @@ public class Timer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+      if (!isActive) return;
+
         timer -= Time.deltaTime;
         
         if (timer > 120)

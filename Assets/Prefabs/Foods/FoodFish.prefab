@@ -9876,7 +9876,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   foodType: 0
   foodStatus: 0
-  source: {fileID: 0}
+  source1: {fileID: 0}
   cutting: {fileID: 8300000, guid: 59557e59e4faa40468c5f3e1caf84e25, type: 3}
 --- !u!114 &-2514503629289340865
 MonoBehaviour:
@@ -9894,7 +9894,7 @@ MonoBehaviour:
     type: 3}
   selectedMaterial: {fileID: 2100000, guid: 1f6c9e27bc8004222b8093d2c2e35f9f, type: 2}
   cutAmount: 6
-  cookAmount: 6
+  cookAmount: -1
 --- !u!65 &111313850266238606
 BoxCollider:
   m_ObjectHideFlags: 0

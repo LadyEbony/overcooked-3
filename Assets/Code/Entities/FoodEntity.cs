@@ -20,7 +20,7 @@ public class FoodEntity : ItemEntity {
   public override void StartEntity() {
     base.StartEntity();
 
-    var prefab = ItemContainer.Instance.foods[foodID];
+    var prefab = ItemContainer.Instance.ingredients[foodID].prefab;
     var obj = Instantiate(prefab, transform);
     description = obj.GetComponent<ItemDescription>();
 

@@ -4,18 +4,21 @@ using UnityEngine;
 
 public class DeliveryTile : Cabient {
 
-    public AudioSource source;
-    public AudioClip success;
+  public AudioSource source;
+  public AudioClip success;
 
 
-    private bool FoodIsCurrentOrder(PlateEntity plate) {
+  private bool FoodIsCurrentOrder(PlateEntity plate) {
     // TODO: Implement Food Check 
     var isrecipe = ItemContainer.Instance.GetCompletedRecipe(plate);
-    return isrecipe;
+    if (isrecipe == -1) return false;
+
+    return OrderManager.Instance.IsAnOrder(isrecipe);
   }
 
   private void DestroyFoodAndUpdateScore(PlateEntity plate) {
-    plate.Destroy();
+    OrderManager.Instance.RemoveOrder(ItemContainer.Instance.GetCompletedRecipe(plate));
+    plate.RaiseEvent('s', true);
     // TODO: Implement score update
   }
 

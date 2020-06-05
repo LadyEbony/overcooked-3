@@ -3,23 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+[System.Serializable]
+public struct Recipe{
+  public string name;
+  public int[] ingredients;
+  public Sprite sprite;
+  public int index;
+}
+
+[System.Serializable]
+public struct Ingredient{
+  public GameObject prefab;
+  public Sprite sprite;
+  public int index;
+}
+
 public class ItemContainer : MonoBehaviour {
 
   public static ItemContainer Instance { get; private set; }
 
-  [Header("Foods")]
-  public GameObject[] foods;
-
-  [System.Serializable]
-  public struct Recipe{
-    public int[] ingredients;
-  }
+  [Header("Ingredients")]
+  public Ingredient[] ingredients;
 
   [Header("Recipes")]
   public Recipe[] recipes; 
 
   private void Awake() {
     Instance = this;
+  }
+
+  public Recipe GetRandomRecipe{
+    get {
+      return recipes[Random.Range(0, recipes.Length)];
+    }
   }
 
   // Should use an enum
@@ -39,12 +55,12 @@ public class ItemContainer : MonoBehaviour {
 
   }
 
-  public bool GetCompletedRecipe(PlateEntity plate){
+  public int GetCompletedRecipe(PlateEntity plate){
     foreach(var r in recipes){
       var rhash = new HashSet<int>(r.ingredients);
-      if (rhash.SetEquals(plate.ingredients)) return true;
+      if (rhash.SetEquals(plate.ingredients)) return r.index;
     }
-    return false;
+    return -1;
   }
 
 }
