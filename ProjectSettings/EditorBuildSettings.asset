@@ -20,4 +20,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game/Instruction4Level1.unity
     guid: 46533e31a78964f03b1ca9b8e0fab74c
+  - enabled: 1
+    path: Assets/Alex/Level2_attempt.unity
+    guid: 1c4e75137cdef4609a4df9abe5ebc230
+  - enabled: 1
+    path: Assets/Alex/level3_attempt.unity
+    guid: ba058bf6ca8fe4259b932a63cfa709f1
+  - enabled: 1
+    path: Assets/Alex/level4_attempt.unity
+    guid: 9e1454372a9ca41018261190f99511cd
   m_configObjects: {}

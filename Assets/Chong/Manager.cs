@@ -2,33 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class Manager : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+public class Manager : MonoBehaviour {
+
+  public Button[] playButtons;
+  public Button quitButton;
+
+  public string[] playLevels;
+  public AudioClip button;
+
+  // Start is called before the first frame update
+  void Start() {
+    for(var i = 0; i < playButtons.Length && i < playLevels.Length; ++i){
+      playButtons[i].onClick.RemoveAllListeners();
+
+      var level = playLevels[i];
+
+      playButtons[i].onClick.AddListener(() => {
+        SceneManager.LoadScene(level);
+        AudioSource.PlayClipAtPoint(button, Camera.main.transform.position);
+        }
+        );
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    quitButton.onClick.RemoveAllListeners();
+    quitButton.onClick.AddListener(() => Application.Quit());
+  }
 
-    public void PlayGame()
-    {
-        Invoke("Level1", 1f);
-    }
-
-    public void QuitGame()
-    {
-        Application.Quit();
-    }
-
-    public void Level1()
-    {
-        SceneManager.LoadScene("Instruction4Level1");
-    }
 }

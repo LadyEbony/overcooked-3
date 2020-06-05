@@ -21,6 +21,7 @@ public class OrderManager : EntityBase, EntityNetwork.IMasterOwnsUnclaimed {
 
   [Header("UI")]
   public Transform uiTransform;
+  public TextMeshProUGUI scoreTextMesh;
   private GameObject uiPrefab;
   public Sprite cutSprite, cookSprite;
 
@@ -110,6 +111,8 @@ public class OrderManager : EntityBase, EntityNetwork.IMasterOwnsUnclaimed {
         }
       }
     }
+
+    scoreTextMesh.text = score.ToString();
 
     // network recipes
     if (NetworkManager.inRoom && isMine && Time.time >= nextNetworkTimer){
