@@ -15,6 +15,7 @@ public class OrderManager : EntityBase, EntityNetwork.IMasterOwnsUnclaimed {
   public List<Recipe> orders;
 
   public static int score;
+  private int prevScore;
 
   public int minOrders = 2;
   public float orderTimer = 12f;
@@ -25,6 +26,10 @@ public class OrderManager : EntityBase, EntityNetwork.IMasterOwnsUnclaimed {
   public TextMeshProUGUI scoreTextMesh;
   private GameObject uiPrefab;
   public Sprite cutSprite, cookSprite;
+
+  [Header("Sound")]
+  public AudioSource source;
+  public AudioClip success;
 
   [Header("Network")]
   public float networkTimer = 0.1f;
@@ -117,6 +122,11 @@ public class OrderManager : EntityBase, EntityNetwork.IMasterOwnsUnclaimed {
     }
 
     scoreTextMesh.text = score.ToString();
+
+    if (prevScore != score){
+      source.PlayOneShot(success);
+    }
+    prevScore = score;
 
     // network recipes
     if (NetworkManager.inRoom && isMine && Time.time >= nextNetworkTimer){

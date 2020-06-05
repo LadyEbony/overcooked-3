@@ -118,6 +118,7 @@ GameObject:
   - component: {fileID: 4493831897161153996}
   - component: {fileID: 4493831897161153999}
   - component: {fileID: 4493831897161153986}
+  - component: {fileID: 6171836284700931930}
   m_Layer: 0
   m_Name: UI
   m_TagString: Untagged
@@ -205,14 +206,111 @@ MonoBehaviour:
   authorityID: -1
   ready: 0
   orders: []
-  score: 0
   minOrders: 2
   orderTimer: 12
   uiTransform: {fileID: 4493831897445511137}
   scoreTextMesh: {fileID: 4493831897491102617}
   cutSprite: {fileID: 21300000, guid: 0a51a8b2ff7079a43acc32a3b8720947, type: 3}
   cookSprite: {fileID: 21300000, guid: 45550f51716d0d94e86dd4be2fa8f0f3, type: 3}
+  source: {fileID: 6171836284700931930}
+  success: {fileID: 8300000, guid: 35fd1df2f4135408790d8c011108da5b, type: 3}
   networkTimer: 0.1
+--- !u!82 &6171836284700931930
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4493831897161153998}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &4493831897222268409
 GameObject:
   m_ObjectHideFlags: 0
@@ -928,6 +1026,7 @@ MonoBehaviour:
   foodPrefab: {fileID: 4033222092485773876, guid: 991fb0aece1a84bf9b4f263c339b2455,
     type: 3}
   spawnPoints:
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
