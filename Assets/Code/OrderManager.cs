@@ -13,7 +13,8 @@ public class OrderManager : EntityBase, EntityNetwork.IMasterOwnsUnclaimed {
   [Header("Game")]
   public bool ready;
   public List<Recipe> orders;
-  public int score;
+
+  public static int score;
 
   public int minOrders = 2;
   public float orderTimer = 12f;
@@ -44,6 +45,7 @@ public class OrderManager : EntityBase, EntityNetwork.IMasterOwnsUnclaimed {
     Register();
 
     orders = new List<Recipe>();
+    score = 0;
 
     while (!NetworkManager.gameReady) yield return null;
     ready = true;

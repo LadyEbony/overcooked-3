@@ -147,7 +147,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entityID: 0
   authorityID: 0
-  updateTimer: 0.1
   playerColors:
   - {r: 0, g: 0, b: 0, a: 1}
   - {r: 0, g: 0, b: 1, a: 1}
@@ -199,7 +198,7 @@ MonoBehaviour:
     m_Bits: 3072
   interactionOffset1: {x: 0, y: -1, z: 1}
   interactionOffset2: {x: 0, y: 0, z: 1}
-  interactionRadius: 0.25
+  interactionRadius: 0.375
   source: {fileID: 0}
   pickUp: {fileID: 8300000, guid: 7dc8470ba12d74977a842ee5554e4375, type: 3}
   drop: {fileID: 8300000, guid: 315fa69d158f240ee8474d21e01becc4, type: 3}

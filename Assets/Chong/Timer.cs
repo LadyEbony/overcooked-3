@@ -20,7 +20,7 @@ public class Timer : MonoBehaviour
     public AudioClip clock;
     public AudioClip ding;
 
-    public static int score;
+    public static int score => OrderManager.score;
 
     void Awake()
     {
@@ -34,8 +34,6 @@ public class Timer : MonoBehaviour
         timer = 60.0f;
         isActive = true;
         gameEnd = false;
-
-        score = Random.Range(99, 101);
     }
 
     // Update is called once per frame

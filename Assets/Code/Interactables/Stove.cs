@@ -22,7 +22,7 @@ public class Stove : Cabient {
 
   private void Update() {
     var f = food;
-    if (f == null){
+    if (f == null || f.cookCurrent == -1){
       progressBarMain.SetActive(false);
     } else {
       progressBarMain.SetActive(true);

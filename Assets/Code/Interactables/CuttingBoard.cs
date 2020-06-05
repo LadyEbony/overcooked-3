@@ -12,7 +12,7 @@ public class CuttingBoard : Cabient, IInteractableAlt {
 
   void Update(){
     var f = food;
-    if (f == null){
+    if (f == null || f.cutCurrent == -1){
       progressBarMain.SetActive(false);
     } else {
       progressBarMain.SetActive(true);
