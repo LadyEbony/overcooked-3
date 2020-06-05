@@ -41,8 +41,22 @@ public class PlateEntity : ItemEntity {
       var c = ingredients.Count;
       copy.transform.localScale *= 0.75f;
       copy.transform.parent = transform;
-      copy.transform.localPosition = new Vector3(Mathf.Cos(c * Mathf.PI * 0.5f) * 0.125f, 0.1f, Mathf.Sin(c * Mathf.PI * 0.5f) * 0.125f);
+      
     }
+
+    // separate all foods equally
+    var count = transform.childCount - 1;
+
+    if (count == 1){
+      transform.GetChild(1).localPosition = new Vector3(0f, 0.1f, 0f);
+    } else {
+      for(var i = 1; i < transform.childCount; ++i){
+        var item = transform.GetChild(i);
+        item.localPosition = new Vector3(Mathf.Cos(i * 2 * Mathf.PI / count) * 0.125f, 0.1f, Mathf.Sin(i * 2 * Mathf.PI / count) * 0.125f);
+      }
+    }
+
+    
   }
 
 }

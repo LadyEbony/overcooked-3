@@ -97,17 +97,19 @@ public class OrderManager : EntityBase, EntityNetwork.IMasterOwnsUnclaimed {
         var ing = ItemContainer.Instance.ingredients[order.ingredients[j]];
         var ui2 = ingredientsTransform.GetChild(j);
 
-        ui2.Find("Item").GetComponent<Image>().sprite = ing.sprite;
+        var item = ui2.Find("Item").GetComponent<Image>();
+        var type = ui2.Find("Type").GetComponent<Image>();
+        item.sprite = ing.sprite;
 
         var food = ing.prefab.GetComponent<ItemDescription>();
         if (food.cutAmount > 0){
-          ui2.gameObject.SetActive(true);
-          ui2.Find("Type").GetComponent<Image>().sprite = cutSprite;
+          type.gameObject.SetActive(true);
+          type.sprite = cutSprite;
         } else if (food.cookAmount > 0){
-          ui2.gameObject.SetActive(true);
-          ui2.Find("Type").GetComponent<Image>().sprite = cookSprite;
+          type.gameObject.SetActive(true);
+          type.sprite = cookSprite;
         } else {
-          ui2.gameObject.SetActive(false);
+          type.gameObject.SetActive(false);
         }
       }
     }

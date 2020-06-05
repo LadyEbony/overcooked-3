@@ -48,7 +48,8 @@ public class ItemContainer : MonoBehaviour {
     
     foreach(var r in recipes){
       // if the recipe has the ingredient
-      return r.ingredients.Contains(food.foodID);
+      if (r.ingredients.Contains(food.foodID))
+        return true;
     }
 
     return false;

@@ -93,7 +93,7 @@ public class FoodEntity : ItemEntity {
     if (cab){
       // You have access to the cabient class
       // Perhaps tell the cabient to play a cutting animation
-      Debug.LogWarning("Insert code to have cabient play knife cutting animation");
+      //Debug.LogWarning("Insert code to have cabient play knife cutting animation");
       this.description.GetComponent<Food>().slicing();
     }
   }
@@ -112,7 +112,7 @@ public class FoodEntity : ItemEntity {
     if (cab){
       // You have access to the cabient class
       // Perhaps tell the cabient to play a cutting animation
-      Debug.LogWarning("Insert code to have cooking animation IF ANYTHING");
+      //Debug.LogWarning("Insert code to have cooking animation IF ANYTHING");
       if (cookCurrent == 0)
       {
          this.description.GetComponent<Food>().cooked();

@@ -459,7 +459,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_textAlignment: 1026
-  m_characterSpacing: 10
+  m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -1126,11 +1126,30 @@ MonoBehaviour:
       type: 3}
     sprite: {fileID: 21300000, guid: 8ebe913a2a7c5a544b2a1942a4566d51, type: 3}
     index: 0
+  - prefab: {fileID: 5156690973283057586, guid: 8d5ca07f6e57cb64eab73bf35a1a5eae,
+      type: 3}
+    sprite: {fileID: 21300000, guid: 079512bd2cef67245a22bff7e58a7b8a, type: 3}
+    index: 1
+  - prefab: {fileID: 13492152562647040, guid: 31deb94b2eaa6964bb9fe7993c8a8fe8, type: 3}
+    sprite: {fileID: 21300000, guid: dc58f3154b33daf4f847f1f667b0033f, type: 3}
+    index: 2
   recipes:
   - name: Sushi
     ingredients: 00000000
     sprite: {fileID: 21300000, guid: fac8566552e9b344885943bb13e3e6d0, type: 3}
     index: 0
+  - name: Sausage
+    ingredients: 02000000
+    sprite: {fileID: 21300000, guid: 9bf08d3c52fddd340895b06528ce8a28, type: 3}
+    index: 1
+  - name: Sushi DX
+    ingredients: 0100000000000000
+    sprite: {fileID: 21300000, guid: 0850e7cfa25bd6840a0349c9b9204a48, type: 3}
+    index: 2
+  - name: Sausage DX
+    ingredients: 0100000002000000
+    sprite: {fileID: 21300000, guid: 02004b68d0ec85f4ca7962e376603cac, type: 3}
+    index: 3
 --- !u!1 &4493831898912973915
 GameObject:
   m_ObjectHideFlags: 0
