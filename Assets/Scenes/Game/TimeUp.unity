@@ -1653,6 +1653,36 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1876475156}
     m_Modifications:
+    - target: {fileID: 2266595125260912823, guid: af811d3af5719467897d0335fd3c0399,
+        type: 3}
+      propertyPath: playButtons.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2266595125260912823, guid: af811d3af5719467897d0335fd3c0399,
+        type: 3}
+      propertyPath: playLevels.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2266595125260912823, guid: af811d3af5719467897d0335fd3c0399,
+        type: 3}
+      propertyPath: playButtons.Array.data[0]
+      value: 
+      objectReference: {fileID: 1919242082}
+    - target: {fileID: 2266595125260912823, guid: af811d3af5719467897d0335fd3c0399,
+        type: 3}
+      propertyPath: quitButton
+      value: 
+      objectReference: {fileID: 1945390470}
+    - target: {fileID: 2266595125260912823, guid: af811d3af5719467897d0335fd3c0399,
+        type: 3}
+      propertyPath: playLevels.Array.data[0]
+      value: Greeting
+      objectReference: {fileID: 0}
+    - target: {fileID: 2266595125260912823, guid: af811d3af5719467897d0335fd3c0399,
+        type: 3}
+      propertyPath: button
+      value: 
+      objectReference: {fileID: 8300000, guid: 1d99c580ce76d437e8ab143eb3f5ddde, type: 3}
     - target: {fileID: 3022751717588535669, guid: af811d3af5719467897d0335fd3c0399,
         type: 3}
       propertyPath: m_LocalPosition.x
