@@ -11,6 +11,8 @@ public class Timer : MonoBehaviour
     float timer;
     public bool gameEnd;
 
+    public bool isActive = false;
+
     //public PlayerController MC;
 
     [Header("Sound effects")]
@@ -29,6 +31,7 @@ public class Timer : MonoBehaviour
     void Start()
     {
         timer = 30.0f;
+        isActive = true;
         gameEnd = false;
 
         score = Random.Range(99, 101);
@@ -65,6 +68,7 @@ public class Timer : MonoBehaviour
         }
         else if (timer < 0)
         {
+            isActive = false;
             if (gameEnd == false)
             {
                 source.Stop();
