@@ -8,6 +8,9 @@ public class Timer : MonoBehaviour
 {
     public Text text;
     public Font end;
+
+    public float gameTime = 90f;
+
     float timer;
     public bool gameEnd;
 
@@ -31,7 +34,7 @@ public class Timer : MonoBehaviour
     IEnumerator Start() {
     while (!NetworkManager.gameReady) yield return null;
 
-        timer = 60.0f;
+        timer = gameTime;
         isActive = true;
         gameEnd = false;
     }
@@ -86,23 +89,20 @@ public class Timer : MonoBehaviour
             text.color = Color.white;
             text.text = "End";
             
-            if (score >= 100)
+            if (score >= 6)
             {
-                Invoke("Ending", 2f);
+              StartCoroutine(LoadScene("Ending"));
             }
             else
             {
-                Invoke("TimeUp", 2f);
+              StartCoroutine(LoadScene("TimeUp"));
             }
         }
     }
 
-    private void TimeUp()
-    {
-        SceneManager.LoadScene("TimeUp");
-    }
-    private void Ending()
-    {
-        SceneManager.LoadScene("Ending");
+    private IEnumerator LoadScene(string scene){
+      yield return new WaitForSeconds(2f);
+      Destroy(NetworkManager.instance.gameObject);
+      SceneManager.LoadScene(scene);
     }
 }

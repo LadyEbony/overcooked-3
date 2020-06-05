@@ -24,6 +24,10 @@ public class Cabient : MonoBehaviour, IInteractableBase {
     cabients.Add(id, this);
   }
 
+  public void OnDestroy() {
+    cabients.Remove(id);
+  }
+
   public void Activate(PlayerEntity player) {
     if (PlayerHoldingItemOnEmptyCabient(player, out var held)){
       held.RaiseEvent('l', true, NetworkManager.ServerTimeFloat, id);
