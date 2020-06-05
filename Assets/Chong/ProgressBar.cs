@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class ProgressBar : MonoBehaviour
 {
     public Slider Pbar;
-    float timer;
+    //float timer;
 
     // Start is called before the first frame update
     void Start()
